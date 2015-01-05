@@ -7,18 +7,79 @@
 //
 
 #import "AppDelegate.h"
+#import "LandingViewController.h"
+#import "Context.h"
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
-
+@synthesize navigationcontroller;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    // Override point for customization after application launch.
+    self.window.backgroundColor = [UIColor whiteColor];
+    LandingViewController *landingViewController = nil;
+        if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+            //For Iphone4
+            landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController_iPhone4" bundle:nil];
+            NSLog(@"iPhone4");
+        }else{
+            landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+
+            NSLog(@"iPhone6");
+
+        }
+
+    navigationcontroller = [[UINavigationController alloc]initWithRootViewController:landingViewController];
+    _revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:navigationcontroller];
+    
+    _revealSideViewController.delegate = self;
+    
+    self.window.rootViewController = _revealSideViewController;
+    
+    PP_RELEASE(landingViewController);
+    PP_RELEASE(navigationcontroller);
+    navigationcontroller.navigationBarHidden = YES;
+    [self.window makeKeyAndVisible];
     return YES;
 }
+#pragma mark - PPRevealSideViewController delegate
+
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPushController:(UIViewController *)pushedController {
+    //PPRSLog(@"%@", pushedController);
+}
+
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didPushController:(UIViewController *)pushedController {
+    // PPRSLog(@"%@", pushedController);
+}
+
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPopToController:(UIViewController *)centerController {
+    // PPRSLog(@"%@", centerController);
+}
+
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didPopToController:(UIViewController *)centerController {
+    // PPRSLog(@"%@", centerController);
+}
+
+- (void)pprevealSideViewController:(PPRevealSideViewController *)controller didChangeCenterController:(UIViewController *)newCenterController {
+    //PPRSLog(@"%@", newCenterController);
+}
+
+- (BOOL)pprevealSideViewController:(PPRevealSideViewController *)controller shouldDeactivateDirectionGesture:(UIGestureRecognizer *)gesture forView:(UIView *)view {
+    return NO;
+}
+
+- (PPRevealSideDirection)pprevealSideViewController:(PPRevealSideViewController *)controller directionsAllowedForPanningOnView:(UIView *)view {
+    if ([view isKindOfClass:NSClassFromString(@"UIWebBrowserView")]) return PPRevealSideDirectionLeft | PPRevealSideDirectionRight;
+    
+    return PPRevealSideDirectionLeft | PPRevealSideDirectionRight | PPRevealSideDirectionTop | PPRevealSideDirectionBottom;
+}
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
