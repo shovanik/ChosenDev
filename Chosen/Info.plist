@@ -5,6 +5,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>GARABD.TTF</string>
+		<string>LithosPro-Regular.ttf</string>
 		<string>GARA.TTF</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>

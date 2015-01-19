@@ -8,6 +8,7 @@
 
 #import "SlideOutMenuViewController.h"
 #import "SettingsViewController.h"
+#import "TournamentViewController.h"
 
 @interface SlideOutMenuViewController ()
 
@@ -60,6 +61,21 @@
         [self.revealSideViewController popViewControllerWithNewCenterController:gVC  animated:YES];
         
         
+    }else if (button.tag == 4){
+        TournamentViewController *tVC  = nil;
+        if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+            //For Iphone4
+            tVC = [[TournamentViewController alloc] initWithNibName:@"TournamentViewController_iPhone4" bundle:nil];
+            // NSLog(@"iPhone4");
+        }else{
+            tVC =  [[TournamentViewController alloc] initWithNibName:@"TournamentViewController" bundle:nil];
+            
+            //  NSLog(@"iPhone6");
+            
+        }
+        [self.revealSideViewController popViewControllerWithNewCenterController:tVC  animated:YES];
+        
+        
     }else if (button.tag == 5){
         SettingsViewController *sVC  = nil;
         if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
@@ -76,6 +92,7 @@
         
         
     }
+
 
 
 }

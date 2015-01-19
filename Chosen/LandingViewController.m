@@ -21,6 +21,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBarHidden = YES;
+    //Print all font name
+    for(NSString *family in [UIFont familyNames])
+    {
+        NSLog(@"%@", family);
+        for(NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@"  %@", name);
+        }
+    }
     
 }
 

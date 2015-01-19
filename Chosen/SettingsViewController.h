@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UIViewController
+@interface SettingsViewController : UIViewController{
+    
+    
+}
+
 @property (nonatomic, strong) IBOutlet UIButton *proSetButton;
 @property (nonatomic, strong) IBOutlet UIButton *abtButton;
 @property (nonatomic, strong) IBOutlet UIButton *priPoliButton;

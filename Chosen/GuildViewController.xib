@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GuildViewController">
             <connections>
+                <outlet property="accurancySlider" destination="Yrg-nQ-zTb" id="rJw-Kf-DRx"/>
                 <outlet property="cNameLabel" destination="vGH-ho-b7i" id="xq3-5v-cpl"/>
                 <outlet property="gNameLabel" destination="UxB-Sq-5FB" id="5dr-vd-wX7"/>
                 <outlet property="nabImgView" destination="SBy-Kf-eqs" id="jeW-mg-R2M"/>
@@ -39,7 +40,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IMh-Yh-R6V">
-                    <rect key="frame" x="0.0" y="-5" width="92" height="61"/>
+                    <rect key="frame" x="0.0" y="0.0" width="86" height="55"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -49,7 +50,7 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bass_bg_iphn6.png" id="BWv-k8-kFB">
-                    <rect key="frame" x="0.0" y="295" width="375" height="371"/>
+                    <rect key="frame" x="0.0" y="296" width="375" height="371"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ahc-TK-HB6">
@@ -66,7 +67,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="backButtonTapped:" destination="-1" eventType="touchUpInside" id="5Yf-En-Sbe"/>
+                        <action selector="backButtonTapped:" destination="-1" eventType="touchUpInside" id="nvK-P7-EiX"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Aj8-MO-HKK">
@@ -76,13 +77,6 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MEDIEVAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UxB-Sq-5FB">
-                    <rect key="frame" x="67" y="315" width="241" height="51"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.79215686269999996" green="0.90196078430000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8,000 $" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vGH-ho-b7i">
                     <rect key="frame" x="227" y="396" width="127" height="43"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -98,6 +92,11 @@
                     <rect key="frame" x="71" y="565" width="271" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
+                <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="100" id="Yrg-nQ-zTb">
+                    <rect key="frame" x="72" y="490" width="271" height="31"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="thumbTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </slider>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lyK-8S-bOl">
                     <rect key="frame" x="36" y="618" width="131" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -112,6 +111,21 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check_btn_iphn6.png" id="GFE-8M-VZK">
+                    <rect key="frame" x="22" y="397" width="42" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="four_star.png" id="y2H-ke-ds7">
+                    <rect key="frame" x="73" y="409" width="130" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MEDIEVAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UxB-Sq-5FB">
+                    <rect key="frame" x="67" y="315" width="241" height="51"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.79215686269999996" green="0.90196078430000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -120,6 +134,8 @@
     </objects>
     <resources>
         <image name="bass_bg_iphn6.png" width="375" height="361"/>
+        <image name="check_btn_iphn6.png" width="42" height="42"/>
+        <image name="four_star.png" width="523" height="73"/>
         <image name="guild_buy_button_iphn6.png" width="131" height="35"/>
         <image name="guild_exchange_button_iph6.png" width="131" height="35"/>
         <image name="guild_navbar_iphn6.png" width="375" height="77"/>

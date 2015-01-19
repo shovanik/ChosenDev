@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
@@ -59,7 +59,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="backButtonTapped:" destination="-1" eventType="touchUpInside" id="Kv2-q8-Lgw"/>
+                        <action selector="backButtonTapped:" destination="-1" eventType="touchUpInside" id="eTX-46-Xgz"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MEDIEVAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UxB-Sq-5FB">
@@ -104,6 +104,22 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="step_one_pro_iphn6.png" id="EfB-Tt-hhx">
+                    <rect key="frame" x="59" y="329" width="220" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="steps2_progress_bar_iph6.png" id="5CI-OI-pzi">
+                    <rect key="frame" x="61" y="385" width="220" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check_btn_iphn6.png" id="hwo-7C-QSW">
+                    <rect key="frame" x="18" y="254" width="42" height="42"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="four_star.png" id="bWL-O2-m9f">
+                    <rect key="frame" x="68" y="266" width="130" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
@@ -112,12 +128,16 @@
     </objects>
     <resources>
         <image name="bass_bg_iphn4.png" width="320" height="282"/>
+        <image name="check_btn_iphn6.png" width="42" height="42"/>
+        <image name="four_star.png" width="523" height="73"/>
         <image name="guild_buy_button_iphn4.png" width="112" height="30"/>
         <image name="guild_exchange_button_iph4.png" width="112" height="30"/>
         <image name="guild_navbar_iphn4.png" width="320" height="64"/>
         <image name="menu_bg_iphn4.png" width="320" height="480"/>
         <image name="menu_button_iphn4.png" width="25" height="21"/>
         <image name="shadow_iphn4.png" width="9" height="480"/>
+        <image name="step_one_pro_iphn6.png" width="278" height="17"/>
+        <image name="steps2_progress_bar_iph6.png" width="278" height="17"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

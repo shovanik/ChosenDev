@@ -65,6 +65,8 @@ typedef enum {
  @var CGFloat width of inner page.
  */
 @property (nonatomic, assign) CGSize pageSize;
+@property (nonatomic, strong) NSMutableArray *pagearray;
+@property (nonatomic, strong) NSMutableArray *pageDicArry;
 
 /*!
  @var InfinitePagingViewScrollDirection
@@ -87,6 +89,7 @@ typedef enum {
  @param UIView *pageView
  */
 - (void)addPageView:(UIView *)pageView;
+- (void)addPageViewDic:(NSDictionary *)pageDic;
 
 /*!
  Scroll to previous page.

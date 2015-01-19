@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "GuildViewController.h"
 #import "Context.h"
-@interface SlideOutMenuViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface SlideOutMenuViewController : UIViewController//<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UILabel *trainingTimeLeftLabel;
 @property (nonatomic, strong) IBOutlet UILabel *trainingTimeLeftValueLabel;

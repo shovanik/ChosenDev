@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chosen/ThirdParty/InfinitePagingView.m"
-            timestampString = "440696255.920774"
+            timestampString = "441040689.166099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
             landmarkName = "-scrollViewDidEndDecelerating:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,12 +58,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chosen/ThirdParty/InfinitePagingView.m"
-            timestampString = "440696485.146517"
+            timestampString = "441040568.626676"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
-            landmarkName = "-scrollViewWillBeginDecelerating:"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "-addPageViewDic:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chosen/GuildViewController.m"
+            timestampString = "442858432.74117"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "-backButtonTapped:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
