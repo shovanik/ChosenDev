@@ -22,7 +22,7 @@
 @end
 
 @implementation RegisterViewController
-@synthesize regContentView, userNameTextField, passwordTextField, conformPasswordTextField,dobTextField,emailTextField, maleButton, femaleButton;
+@synthesize regContentView, userNameTextField, passwordTextField, conformPasswordTextField,dobTextField,emailTextField, maleButton, femaleButton, navTitle;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,6 +32,18 @@
     self.conformPasswordTextField.font = [UIFont fontWithName:@"Garamond" size:17];
     self.dobTextField.font = [UIFont fontWithName:@"Garamond" size:17];
     self.emailTextField.font = [UIFont fontWithName:@"Garamond" size:17];
+    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+        //For Iphone4
+        // NSLog(@"iPhone4");
+        self.navTitle.font = [UIFont fontWithName:@"LithosPro-Regular" size:17];
+        
+    }else{
+        self.navTitle.font = [UIFont fontWithName:@"LithosPro-Regular" size:30];
+        
+        //  NSLog(@"iPhone6");
+        
+    }
+
     
     UIColor *color = [UIColor colorWithRed:202.0f/255.0f green:230.0f/255.0f blue:233.0f/255.0f alpha:1.0f];
     self.userNameTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"User Name" attributes:@{NSForegroundColorAttributeName: color}];

@@ -12,6 +12,8 @@
 @property (nonatomic, strong) IBOutlet UITextField *userNameTextField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordTextField;
 @property (nonatomic, strong) IBOutlet UIView *lgncontentView;
+@property (nonatomic, strong) IBOutlet UILabel *navTitle;
+
 -(IBAction)backButtonTapped:(id)sender;
 -(IBAction)loginButtonTapped:(id)sender;
 

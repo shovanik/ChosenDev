@@ -11,5 +11,5 @@
 @interface LandingViewController : UIViewController
 -(IBAction)loginButtonTapped:(id)sender;
 -(IBAction)registerButtonTapped:(id)sender;
-
+@property (nonatomic, strong) IBOutlet UILabel *cpLabel;
 @end

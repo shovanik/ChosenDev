@@ -24,14 +24,14 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="77"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qpQ-Rq-W1e" userLabel="Button - back">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qpQ-Rq-W1e" userLabel="Button - back">
                     <rect key="frame" x="284" y="0.0" width="91" height="55"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="backButtonTapped:" destination="-1" eventType="touchUpInside" id="LFG-Zf-Exc"/>
+                        <action selector="backButtonTapped:" destination="-1" eventType="touchUpInside" id="hh1-eS-myw"/>
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="step_content_bg_iphn6.png" id="yox-IM-PnC">

@@ -16,6 +16,7 @@
 @end
 
 @implementation LandingViewController
+@synthesize cpLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,6 +31,7 @@
             NSLog(@"  %@", name);
         }
     }
+    //self.cpLabel.font = [UIFont fontWithName:@"Garamond" size:17];
     
 }
 
@@ -42,8 +44,8 @@
 }
 -(IBAction)loginButtonTapped:(id)sender
 {
-    LoginViewController *lVC  = nil;
-    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+    LoginViewController *lVC  = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    /*if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
         //For Iphone4
        lVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPhone4" bundle:nil];
        // NSLog(@"iPhone4");
@@ -52,15 +54,15 @@
         
       //  NSLog(@"iPhone6");
         
-    }
+    }*/
     [self.navigationController pushViewController:lVC animated:YES];
 
     
 }
 -(IBAction)registerButtonTapped:(id)sender
 {
-    RegisterViewController *rVC  = nil;
-    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+    RegisterViewController *rVC  = [[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:nil];
+    /*if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
         //For Iphone4
         rVC = [[RegisterViewController alloc] initWithNibName:@"RegisterViewController_iPhone4" bundle:nil];
         // NSLog(@"iPhone4");
@@ -69,7 +71,7 @@
         
         //  NSLog(@"iPhone6");
         
-    }
+    }*/
     [self.navigationController pushViewController:rVC animated:YES];
 
 }

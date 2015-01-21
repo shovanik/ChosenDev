@@ -135,17 +135,17 @@
 }
 -(IBAction)backButtonTapped:(id)sender{
     //[self.navigationController popViewControllerAnimated:YES];
-    LandingViewController *sVC  = nil;
-    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+    LandingViewController *sVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+    /*if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
         //For Iphone4
         sVC = [[LandingViewController alloc] initWithNibName:@"LandingViewController_iPhone4" bundle:nil];
         // NSLog(@"iPhone4");
     }else{
-        sVC =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];;
+        sVC =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
         
         //  NSLog(@"iPhone6");
         
-    }
+    }*/
     [self.navigationController pushViewController:sVC animated:YES];
 }
 - (void)didReceiveMemoryWarning {

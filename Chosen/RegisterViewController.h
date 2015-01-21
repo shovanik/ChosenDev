@@ -10,6 +10,8 @@
 
 @interface RegisterViewController : UIViewController <UITextFieldDelegate>
 @property (nonatomic, strong) IBOutlet UIView *regContentView;
+@property (nonatomic, strong) IBOutlet UILabel *navTitle;
+
 @property (nonatomic, strong) IBOutlet UITextField *userNameTextField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordTextField;
 @property (nonatomic, strong) IBOutlet UITextField *conformPasswordTextField;

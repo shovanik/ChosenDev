@@ -22,17 +22,17 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    LandingViewController *landingViewController = nil;
-        if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+    LandingViewController *landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+       /* if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
             //For Iphone4
-            landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController_iPhone4" bundle:nil];
+            landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
             NSLog(@"iPhone4");
         }else{
             landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
 
             NSLog(@"iPhone6");
 
-        }
+        }*/
 
     navigationcontroller = [[UINavigationController alloc]initWithRootViewController:landingViewController];
     _revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:navigationcontroller];
