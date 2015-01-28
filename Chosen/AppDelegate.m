@@ -6,9 +6,15 @@
 //  Copyright (c) 2014 appsbee. All rights reserved.
 //
 
+#import <FacebookSDK/FacebookSDK.h>
+
 #import "AppDelegate.h"
 #import "LandingViewController.h"
 #import "Context.h"
+#import <Social/Social.h>
+#import "LandingViewController.h"
+#import "StepOneViewController.h"
+
 
 @interface AppDelegate ()
 
@@ -17,22 +23,68 @@
 @implementation AppDelegate
 @synthesize navigationcontroller;
 
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    
+    //NSLog(@"%@",url);
+    
+    if ([ [url absoluteString] rangeOfString:@"com.facebook.sdk_client_state"].location == NSNotFound) {
+        
+        if ([ [url absoluteString] rangeOfString:@"twitter_access_tokens"].location == NSNotFound)
+        {}
+        else
+        {
+            NSLog(@"Twitter Loop");
+            if ([[url scheme] isEqualToString:@"myapp"] == NO) return NO;
+            
+            NSDictionary *d = [self parametersDictionaryFromQueryString:[url query]];
+            NSString *token = d[@"oauth_token"];
+            NSString *verifier = d[@"oauth_verifier"];
+            
+            //LandingViewController *landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+            //[landingViewController setOAuthToken:token oauthVerifier:verifier];
+        }
+        return YES;
+    }
+    else
+    {
+        NSLog(@"Facebook Loop");
+        // attempt to extract a token from the url
+        return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication fallbackHandler:^(FBAppCall *call)
+        {
+            NSLog(@"In fallback handler");
+        
+        }];
+    }
+}
+
+
+- (NSDictionary *)parametersDictionaryFromQueryString:(NSString *)queryString {
+    
+    NSMutableDictionary *md = [NSMutableDictionary dictionary];
+    
+    NSArray *queryComponents = [queryString componentsSeparatedByString:@"&"];
+    
+    for(NSString *s in queryComponents) {
+        NSArray *pair = [s componentsSeparatedByString:@"="];
+        if([pair count] != 2) continue;
+        
+        NSString *key = pair[0];
+        NSString *value = pair[1];
+        
+        md[key] = value;
+    }
+    
+    return md;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     LandingViewController *landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
-       /* if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-            //For Iphone4
-            landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
-            NSLog(@"iPhone4");
-        }else{
-            landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
-
-            NSLog(@"iPhone6");
-
-        }*/
 
     navigationcontroller = [[UINavigationController alloc]initWithRootViewController:landingViewController];
     _revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:navigationcontroller];
@@ -45,6 +97,11 @@
     PP_RELEASE(navigationcontroller);
     navigationcontroller.navigationBarHidden = YES;
     [self.window makeKeyAndVisible];
+    
+    
+    [FBLoginView class];
+    [FBProfilePictureView class];
+    
     return YES;
 }
 #pragma mark - PPRevealSideViewController delegate

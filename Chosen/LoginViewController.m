@@ -9,6 +9,8 @@
 #import "LoginViewController.h"
 #import "StepOneViewController.h"
 #import "Context.h"
+#import "DataClass.h"
+NSUserDefaults *pref;
 
 @interface LoginViewController (){
     CGFloat animatedDistance;
@@ -22,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    pref = [NSUserDefaults standardUserDefaults];
     // Do any additional setup after loading the view from its nib.
    /* for(NSString* family in [UIFont familyNames])
     {
@@ -130,7 +133,47 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 140;
         //  NSLog(@"iPhone6");
         
     }
-    [self.navigationController pushViewController:sVC animated:YES];
+    DataClass *commonData = [[DataClass alloc] init];
+    commonData.isLoginButtonClicked=YES;
+    
+    NSDictionary *params = @{@"user_name" : userNameTextField.text,
+                             @"password" : passwordTextField.text};
+    
+    
+    [commonData apiCall:params method:@"POST" completionHandler:^(id response, NSError *error)
+     {
+         if (error)
+         {
+             NSLog(@"API Error : %@", error);
+         }
+         
+         else
+         {
+             NSLog(@"API Response : %@", response);
+             int status =[[response valueForKey:@"status"] intValue];
+             
+             if (status==1)
+             {
+                 [self.navigationController pushViewController:sVC animated:YES];
+                 
+             }
+             else
+             {
+                 
+                 UIAlertView *alert = [[UIAlertView alloc]
+                                       initWithTitle:@"Login Failed!"
+                                       message:@"Wrong user name or password."
+                                       delegate:self
+                                       cancelButtonTitle:@"Ok"
+                                       otherButtonTitles:nil];
+                 [alert show];
+             }
+         }
+         
+     }];
+
+    
+    //[self.navigationController pushViewController:sVC animated:YES];
 
 }
 

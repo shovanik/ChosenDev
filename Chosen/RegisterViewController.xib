@@ -19,6 +19,7 @@
                 <outlet property="navTitle" destination="Izs-gf-fMI" id="PWk-Qr-lYi"/>
                 <outlet property="passwordTextField" destination="uMs-fd-lte" id="HOV-1P-GA0"/>
                 <outlet property="regContentView" destination="uK7-Ar-NTU" id="pyU-Ex-oMf"/>
+                <outlet property="regContentViewVerticalyCenter" destination="GnC-Im-R29" id="Set-lT-YWd"/>
                 <outlet property="userNameTextField" destination="fzm-nx-LYZ" id="xDG-zG-821"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -39,13 +40,32 @@
                     <fontDescription key="fontDescription" name="LithosPro-Regular" family="Lithos Pro" pointSize="24"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
+                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                        <rect key="frame" x="143" y="17" width="116" height="28"/>
+                    </variation>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAc-pU-y2G">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAc-pU-y2G">
                     <rect key="frame" x="506" y="4" width="94" height="43"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="4di-RK-GXf"/>
+                        <constraint firstAttribute="width" constant="94" id="OQK-yQ-DO1"/>
+                    </constraints>
                     <state key="normal" title="Back">
                         <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="4di-RK-GXf"/>
+                            <exclude reference="OQK-yQ-DO1"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="4di-RK-GXf"/>
+                            <include reference="OQK-yQ-DO1"/>
+                        </mask>
+                    </variation>
                     <connections>
                         <action selector="backButtonTapped:" destination="-1" eventType="touchUpInside" id="txy-sq-j28"/>
                     </connections>
@@ -224,16 +244,13 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="pAc-pU-y2G" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Fsp-NQ-iw8">
-                    <variation key="heightClass=regular-widthClass=compact" constant="9"/>
-                </constraint>
+                <constraint firstAttribute="trailing" secondItem="pAc-pU-y2G" secondAttribute="trailing" id="AEq-JA-zJ7"/>
                 <constraint firstAttribute="centerY" secondItem="uK7-Ar-NTU" secondAttribute="centerY" id="GnC-Im-R29"/>
                 <constraint firstAttribute="trailing" secondItem="pme-Jc-YSO" secondAttribute="trailing" id="K8M-ag-GaB"/>
                 <constraint firstItem="4TQ-LZ-fgW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Ld3-wo-rD7"/>
+                <constraint firstItem="pAc-pU-y2G" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="1" id="Neq-87-Wpq"/>
                 <constraint firstItem="pme-Jc-YSO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NgE-Ri-PCi"/>
-                <constraint firstAttribute="trailing" secondItem="pAc-pU-y2G" secondAttribute="trailing" constant="-4" id="au1-Yk-kzM"/>
                 <constraint firstItem="pme-Jc-YSO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="fDT-rw-lGP"/>
-                <constraint firstItem="pAc-pU-y2G" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="310" id="fyD-4p-nn1"/>
                 <constraint firstAttribute="trailing" secondItem="4TQ-LZ-fgW" secondAttribute="trailing" id="iWb-0J-Ab5"/>
                 <constraint firstAttribute="bottom" secondItem="pme-Jc-YSO" secondAttribute="bottom" id="jXp-bC-4mg"/>
                 <constraint firstAttribute="centerX" secondItem="uK7-Ar-NTU" secondAttribute="centerX" constant="-17.5" id="nM8-6k-RcO">
@@ -248,21 +265,19 @@
                 <mask key="constraints">
                     <exclude reference="wLA-MG-g6j"/>
                     <exclude reference="xwa-2z-Da3"/>
-                    <exclude reference="Fsp-NQ-iw8"/>
-                    <exclude reference="au1-Yk-kzM"/>
-                    <exclude reference="fyD-4p-nn1"/>
+                    <exclude reference="AEq-JA-zJ7"/>
+                    <exclude reference="Neq-87-Wpq"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular-widthClass=compact">
                 <mask key="constraints">
                     <include reference="wLA-MG-g6j"/>
                     <include reference="xwa-2z-Da3"/>
-                    <include reference="Fsp-NQ-iw8"/>
-                    <include reference="au1-Yk-kzM"/>
-                    <include reference="fyD-4p-nn1"/>
+                    <include reference="AEq-JA-zJ7"/>
+                    <include reference="Neq-87-Wpq"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="128" y="374"/>
+            <point key="canvasLocation" x="-4" y="365"/>
         </view>
     </objects>
     <resources>

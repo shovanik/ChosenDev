@@ -78,6 +78,9 @@
                             <include reference="lsi-f8-R9s"/>
                         </mask>
                     </variation>
+                    <connections>
+                        <action selector="fbloginClick:" destination="-1" eventType="touchUpInside" id="YP2-YQ-yg9"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pjB-3k-LKd" userLabel="Button - Twitter">
                     <rect key="frame" x="0.0" y="0.0" width="1174" height="228"/>

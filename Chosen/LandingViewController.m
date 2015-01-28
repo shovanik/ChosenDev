@@ -5,11 +5,15 @@
 //  Created by appsbee on 15/12/14.
 //  Copyright (c) 2014 appsbee. All rights reserved.
 //
-
+#import <FacebookSDK/FacebookSDK.h>
+#include "AppDelegate.h"
+#import "STTwitter.h"
 #import "LandingViewController.h"
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
 #import "Context.h"
+#import "DataClass.h"
+#import "StepOneViewController.h"
 
 @interface LandingViewController ()
 
@@ -17,23 +21,140 @@
 
 @implementation LandingViewController
 @synthesize cpLabel;
+FBLoginView *fbLoginView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBarHidden = YES;
     //Print all font name
-    for(NSString *family in [UIFont familyNames])
+   /* for(NSString *family in [UIFont familyNames])
     {
         NSLog(@"%@", family);
         for(NSString* name in [UIFont fontNamesForFamilyName: family])
         {
             NSLog(@"  %@", name);
         }
-    }
+    }*/
     //self.cpLabel.font = [UIFont fontWithName:@"Garamond" size:17];
     
+    
+    fbLoginView=[[FBLoginView alloc] initWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]];
+    fbLoginView.delegate = self;
+    fbLoginView.frame = CGRectMake(1, 1, 0, 0);
+    
+    for (id obj in fbLoginView.subviews)
+    {
+        
+        if ([obj isKindOfClass:[UILabel class]])
+        {
+            UILabel * loginLabel =  obj;
+            loginLabel.frame = CGRectMake(1, 1, 0, 0);
+        }
+        if ([obj isKindOfClass:[UIButton class]])
+        {
+            UIButton * loginButton =  obj;
+            UIImage *loginImage = [UIImage imageNamed:@"fblogin.png"];
+            [loginButton setBackgroundImage:loginImage forState:UIControlStateNormal];
+            [loginButton setBackgroundImage:nil forState:UIControlStateSelected];
+            [loginButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+            [loginButton sizeToFit];
+        }
+        
+        
+    }
+    
+    fbLoginView.hidden=YES;
+    [self.view addSubview:fbLoginView];
+    
 }
+
+//- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
+//{
+//    StepOneViewController *sVC  = nil;
+//    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+//        //For Iphone4
+//        sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
+//        // NSLog(@"iPhone4");
+//    }else{
+//        sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
+//        
+//        //  NSLog(@"iPhone6");
+//        
+//    }
+//    [self.navigationController pushViewController:sVC animated:YES];
+//}
+
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
+                            user:(id<FBGraphUser>)user {
+    
+    
+    for (id obj in fbLoginView.subviews)
+    {
+        if ([obj isKindOfClass:[UIButton class]])
+        {
+            UIButton * loginButton =  obj;
+            UIImage *loginImage = [UIImage imageNamed:@"fblogout.png"];
+            [loginButton setBackgroundImage:loginImage forState:UIControlStateNormal];
+            [loginButton setBackgroundImage:nil forState:UIControlStateSelected];
+            [loginButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+            [loginButton sizeToFit];
+        }
+        
+        if ([obj isKindOfClass:[UILabel class]])
+        {
+            UILabel * loginLabel =  obj;
+            loginLabel.text = @"Log out from Facebook";
+            loginLabel.font = [UIFont fontWithName:@"Arial Rounded MT Bold" size:16.0];
+            loginLabel.textAlignment = NSTextAlignmentCenter;
+            //loginLabel.textAlignment = NSTextAlignmentLeft;
+            //loginLabel.textColor=[UIColor colorWithRed: 78.0/255.0f green:113.0/255.0f blue:168.0/255.0f alpha:1.0];
+            //loginLabel.backgroundColor=[UIColor colorWithRed: 78.0/255.0f green:113.0/255.0f blue:168.0/255.0f alpha:1.0];
+            loginLabel.frame = CGRectMake(1, 1, 0, 0);
+        }
+    }
+    fbLoginView.hidden=YES;
+    [self.view addSubview:fbLoginView];
+    
+    // here we use helper properties of FBGraphUser to dot-through to first_name and
+    // id properties of the json response from the server; alternatively we could use
+    // NSDictionary methods such as objectForKey to get values from the my json object
+    
+    
+    //self.fbNameLabel.text = [NSString stringWithFormat:@"Welcome %@!", user.first_name];
+    // setting the profileID property of the FBProfilePictureView instance
+    // causes the control to fetch and display the profile picture for the user
+
+    //self.fbProfileView.profileID = user.objectID;
+    self.loggedInUser = user;
+    NSLog(@"loggedIN: %@",self.loggedInUser);
+    if(self.loggedInUser)
+    {
+        StepOneViewController *sVC  = nil;
+            if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+                //For Iphone4
+                sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
+                // NSLog(@"iPhone4");
+            }else{
+                sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
+        
+                //  NSLog(@"iPhone6");
+        
+            }
+            [self.navigationController pushViewController:sVC animated:YES];
+    }
+    
+    //[self.twitterButtonLabel setEnabled:NO];
+    //self.twitterButtonLabel.userInteractionEnabled = NO;
+    
+}
+
+- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
+    // see https://developers.facebook.com/docs/reference/api/errors/ for general guidance on error handling for Facebook API
+    // our policy here is to let the login view handle errors, but to log the results
+    NSLog(@"FBLoginView encountered an error=%@", error);
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -42,6 +163,10 @@
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }
+- (IBAction)fbloginClick:(id)sender {
+    [fbLoginView.subviews[0] sendActionsForControlEvents:UIControlEventTouchUpInside];
+}
+
 -(IBAction)loginButtonTapped:(id)sender
 {
     LoginViewController *lVC  = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
@@ -62,17 +187,7 @@
 -(IBAction)registerButtonTapped:(id)sender
 {
     RegisterViewController *rVC  = [[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:nil];
-    /*if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-        //For Iphone4
-        rVC = [[RegisterViewController alloc] initWithNibName:@"RegisterViewController_iPhone4" bundle:nil];
-        // NSLog(@"iPhone4");
-    }else{
-        rVC =  [[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:nil];;
-        
-        //  NSLog(@"iPhone6");
-        
-    }*/
-    [self.navigationController pushViewController:rVC animated:YES];
+       [self.navigationController pushViewController:rVC animated:YES];
 
 }
 

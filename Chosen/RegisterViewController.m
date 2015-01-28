@@ -9,24 +9,34 @@
 #import "RegisterViewController.h"
 #import "Context.h"
 #import "StepOneViewController.h"
+#import "DataClass.h"
 
 @interface RegisterViewController (){
     
        CGFloat animatedDistance;
+    CGFloat duration;
+    CGRect keyboardBounds;
+    CGRect actuallRect ;
+
 
 }
-@property (nonatomic, retain) UIDatePicker *dateatePickerView;
-@property (nonatomic, retain) UIView *datePickerEditView;
+@property (nonatomic, strong) NSString *genderString;
+@property (nonatomic, strong) UIDatePicker *dateatePickerView;
+@property (nonatomic, strong) UIView *datePickerEditView;
+@property (nonatomic,strong)IBOutlet NSLayoutConstraint * regContentViewVerticalyCenter;
 
 
 @end
 
 @implementation RegisterViewController
-@synthesize regContentView, userNameTextField, passwordTextField, conformPasswordTextField,dobTextField,emailTextField, maleButton, femaleButton, navTitle;
+@synthesize regContentView, userNameTextField, passwordTextField, conformPasswordTextField,dobTextField,emailTextField, maleButton, femaleButton, navTitle, genderString, regContentViewVerticalyCenter;
+int UserID;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.maleButton.selected = YES;
+    self.genderString = @"1";
     self.userNameTextField.font = [UIFont fontWithName:@"Garamond" size:17];
     self.passwordTextField.font = [UIFont fontWithName:@"Garamond" size:17];
     self.conformPasswordTextField.font = [UIFont fontWithName:@"Garamond" size:17];
@@ -71,6 +81,15 @@
         [aPick addTarget:self action:@selector(dateLabelChanged:) forControlEvents:UIControlEventValueChanged];
         self.dateatePickerView = aPick;
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:@"UIKeyboardWillShowNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:@"UIKeyboardWillHideNotification"
+                                               object:nil];
 
 
     
@@ -84,60 +103,68 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3;
-static const CGFloat MINIMUM_SCROLL_FRACTION = 0.2;
-static const CGFloat MAXIMUM_SCROLL_FRACTION = 0.8;
-static const CGFloat PORTRAIT_KEYBOARD_HEIGHT = 180;
-static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 140;
 
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    //[[textField textInputTraits] setValue:[UIColor greenColor] forKey:@"insertionPointColor"];
-    CGRect textFieldRect = [regContentView.window convertRect:textField.bounds fromView:textField];
-    CGRect viewRect = [regContentView.window convertRect:regContentView.bounds fromView:regContentView];
-    CGFloat midline = textFieldRect.origin.y + 0.5 * textFieldRect.size.height;
-    CGFloat numerator = midline - viewRect.origin.y - MINIMUM_SCROLL_FRACTION * viewRect.size.height;
-    CGFloat denominator = (MAXIMUM_SCROLL_FRACTION - MINIMUM_SCROLL_FRACTION) * viewRect.size.height;
-    CGFloat heightFraction = numerator / denominator;
-    if (heightFraction < 0.0)
-    {
-        heightFraction = 0.0;
-    }
-    else if (heightFraction > 1.0)
-    {
-        heightFraction = 1.0;
-    }
-    UIInterfaceOrientation orientation =
-    [[UIApplication sharedApplication] statusBarOrientation];
-    if (orientation == UIInterfaceOrientationPortrait ||
-        orientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        animatedDistance = floor(PORTRAIT_KEYBOARD_HEIGHT * heightFraction);
-    }
-    else
-    {
-        animatedDistance = floor(LANDSCAPE_KEYBOARD_HEIGHT * heightFraction);
-    }
-    CGRect viewFrame = regContentView.frame;
-    viewFrame.origin.y -= animatedDistance;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDuration:KEYBOARD_ANIMATION_DURATION];
-    [regContentView setFrame:viewFrame];
-    [UIView commitAnimations];
-    
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    CGRect viewFrame = regContentView.frame;
-    viewFrame.origin.y += animatedDistance;
+}
+- (void) keyboardWillShow:(NSNotification *)note {
+    // get keyboard size and loctaion
+    
+    
+    [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    //NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    duration = [[[note userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    // Need to translate the bounds to account for rotation.
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+    NSLog(@"%f",keyboardBounds.size.height);
+    
+    // get a rect for the textView frame
+    CGRect containerFrame = self.regContentView.frame;
+    actuallRect = self.regContentView.frame;
+    NSLog(@"login content view frame = %f  %f",containerFrame.origin.y , containerFrame.size.height);
+    
+    containerFrame.origin.y = self.view.bounds.size.height - (keyboardBounds.size.height + self.regContentView.frame.size.height);
+    
+    NSLog(@"login content view frame = %f  %f",containerFrame.origin.y , containerFrame.size.height);
+    
+    // animations settings
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDuration:KEYBOARD_ANIMATION_DURATION];
-    [regContentView setFrame:viewFrame];
+    [UIView setAnimationDuration:duration];
+    [UIView setAnimationCurve:[curve intValue]];
+    
+    // set views with new info
+    regContentViewVerticalyCenter.constant = 130;
+    self.regContentView.frame = containerFrame;
+    
+    
+    // commit animations
     [UIView commitAnimations];
 }
+
+- (void) keyboardWillHide:(NSNotification *)note {
+    duration = [[[note userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    double hdDuration = [[[note userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    int curve = [[[note userInfo] objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
+    
+    // slide view down
+    [UIView beginAnimations:@"foo" context:nil];
+    [UIView setAnimationDuration:hdDuration];
+    [UIView setAnimationCurve:curve];
+    self.regContentView.frame = actuallRect ;
+    regContentViewVerticalyCenter.constant = 0;
+
+    [UIView commitAnimations];
+    
+    
+}
+
 
 
 - (void)didReceiveMemoryWarning {
@@ -146,26 +173,180 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 140;
 }
 -(IBAction)maleFemaleButtonTapped:(id)sender{
     
+    if (sender == maleButton)
+    {
+        maleButton.selected = YES;
+        femaleButton.selected = NO;
+        self.genderString = @"1";
+    }else if (sender == femaleButton){
+        maleButton.selected = NO;
+        femaleButton.selected = YES;
+        self.genderString = @"2";
+
+    }
+   // NSLog(@"Gender = %@", genderString);
+    
+    
 }
 -(BOOL)textFieldShouldReturn:(UITextField*)textField;
 {
     [textField resignFirstResponder];
     return YES;
 }
--(IBAction)submitButtonTapped:(id)sender
+- (void) alertStatus:(NSString *)msg :(NSString *)title
 {
-    StepOneViewController *sVC  = nil;
-    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-        //For Iphone4
-        sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
-        // NSLog(@"iPhone4");
-    }else{
-        sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:msg
+                                                       delegate:self
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
+-(BOOL) NSStringIsValidEmail:(NSString *)checkString
+{
+    BOOL stricterFilter = NO;
+    NSString *stricterFilterString = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
+    NSString *laxString = @".+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2}[A-Za-z]*";
+    NSString *emailRegex = stricterFilter ? stricterFilterString : laxString;
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:checkString];
+}
+-(BOOL) NSStringIsValidPassword:(NSString *)checkString
+{
+    BOOL /*lowerCaseLetter = false,upperCaseLetter = false,*/digit = false,specialCharacter = false;
+    if([checkString length] >= 8)
+    {
+        for (int i = 0; i < [checkString length]; i++)
+        {
+            unichar c = [checkString characterAtIndex:i];
+           /* if(!lowerCaseLetter)
+            {
+                lowerCaseLetter = [[NSCharacterSet lowercaseLetterCharacterSet] characterIsMember:c];
+            }
+            if(!upperCaseLetter)
+            {
+                upperCaseLetter = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:c];
+            }*/
+            if(!digit)
+            {
+                digit = [[NSCharacterSet decimalDigitCharacterSet] characterIsMember:c];
+            }
+            if(!specialCharacter)
+            {
+                specialCharacter = [[NSCharacterSet symbolCharacterSet] characterIsMember:c];
+            }
+        }
         
-        //  NSLog(@"iPhone6");
+        if(specialCharacter && digit /*&& lowerCaseLetter && upperCaseLetter*/)
+        {
+            //do what u want
+            return YES;
+        }
+        else
+        {
+            [self alertStatus:@"Your password must contain at least one numeric number or one special character." :@"Registration Failed!"];
+        }
         
     }
-    [self.navigationController pushViewController:sVC animated:YES];
+    else
+    {
+        [self alertStatus:@"Your password must be 8 characters long." :@"Registration Failed!"];
+    }
+    return NO;
+}
+
+-(IBAction)submitButtonTapped:(id)sender
+{
+    if (self.userNameTextField.text.length == 0 || self.passwordTextField.text.length == 0 || self.genderString.length == 0 || dobTextField == 0 || emailTextField.text.length == 0 )
+    {
+        [self alertStatus:@"All Fields are mandatory." :@"Registration Failed!"];
+        
+    }
+    else
+    {
+        if(self.passwordTextField.text.length <8 )
+        {
+            [self alertStatus:@"Your password must be 8 characters long." :@"Registration Failed!"];
+
+        }
+      /* else
+        if(![self NSStringIsValidPassword:[self.passwordTextField text]])
+        {
+            //[self alertStatus:@"Your password must contain at least one numeric number or one special character." :@"Registration Failed!"];
+        }*/
+        else if (![self.passwordTextField.text isEqualToString:self.conformPasswordTextField.text]) {
+            [self alertStatus:@"The password entered does not match the confirmation password." :@"Registration Failed!"];
+
+        }
+        else if(![self NSStringIsValidEmail:[self.emailTextField text]])
+        {
+            [self alertStatus:@"Please enter valid Email ID" :@"Registration Failed!"];
+        }
+        else
+        {
+      
+        
+        StepOneViewController *sVC  = nil;
+        if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+            //For Iphone4
+            sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
+            // NSLog(@"iPhone4");
+        }else{
+            sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
+            
+            //  NSLog(@"iPhone6");
+            
+        }
+        DataClass *commonData = [[DataClass alloc] init];
+        commonData.isLoginButtonClicked =NO;
+        
+        NSDictionary *params = @{@"user_name" : userNameTextField.text,
+                                 @"password" : passwordTextField.text,
+                                 @"gender" : genderString,
+                                 @"email" : emailTextField.text,
+                                 @"date_of_birth" : dobTextField.text};
+        
+        
+        //[self.activityIndicatorView startAnimating];
+        
+        
+        [commonData apiCall:params method:@"POST" completionHandler:^(id response, NSError *error)
+         {
+             
+             
+             if (error) {
+                 NSLog(@"API Error : %@", error);
+             }
+             
+             else
+             {
+                 NSLog(@"API Response : %@", response);
+                 int status =[[response valueForKey:@"status"] intValue];
+                 
+                 if (status==1)
+                 {
+                     [self.navigationController pushViewController:sVC animated:YES];
+                     
+                 }
+                 else
+                 {
+                     
+                     UIAlertView *alert = [[UIAlertView alloc]
+                                           initWithTitle:@"Registration Failed!"
+                                           message:@"OOPS! Something went wrong. Please try again!"
+                                           delegate:self
+                                           cancelButtonTitle:@"Ok"
+                                           otherButtonTitles:nil];
+                     [alert show];
+                 }
+             }
+             
+         }];
+  
+        
+    }
+}
+    
     
 }
 -(IBAction)dobButtonClicked:(id)sender;
@@ -237,9 +418,11 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 140;
 -(void)dateLabelChanged:(id)sender{
     NSDate *date = self.dateatePickerView.date;
     NSDateFormatter* df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"MM-dd-yyyy"];
+    [df setDateFormat:@"dd-MM-yyyy"];
     NSString *formattedDateString = [df stringFromDate:date];
     self.dobTextField.text = formattedDateString;
+    
+    NSLog(@"Dob = %@", self.dobTextField.text);
     /*if (([self.seletedDateButtonString caseInsensitiveCompare:START_DATE_BUTTON_CLICKED_KEY]) == NSOrderedSame) {
         self.assignmentStartDateTextField.text = formattedDateString;
     } else if (([self.seletedDateButtonString caseInsensitiveCompare:END_DATE_BUTTON_CLICKED_KEY]) == NSOrderedSame) {
