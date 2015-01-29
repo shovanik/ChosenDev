@@ -9,18 +9,22 @@
 #import "SlideOutMenuViewController.h"
 #import "SettingsViewController.h"
 #import "TournamentViewController.h"
-
+#import "LandingViewController.h"
+NSUserDefaults *pref;
 @interface SlideOutMenuViewController ()
 
 @end
 
 @implementation SlideOutMenuViewController
 @synthesize trainingTimeLeftLabel, trainingTimeLeftValueLabel, lastBatttleLabel, lastBatttValueleLabel;
-@synthesize worldButton, guildButton, contractButton, tournamentButton, settingsButton;
+@synthesize worldButton, guildButton, contractButton, tournamentButton, settingsButton, loggedInUser;
+FBLoginView *fbLoginView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.guildButton.selected = NO;
+    pref = [NSUserDefaults standardUserDefaults];
+
 
     // Do any additional setup after loading the view from its nib.
     self.trainingTimeLeftLabel.font = [UIFont fontWithName:@"Garamond" size:11];
@@ -32,6 +36,52 @@
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }
+- (IBAction)logoutButtonTapped:(id)sender {
+    
+    NSInteger loginFromStatus = [[pref valueForKey:@"LoggedInState"] intValue];
+    NSLog(@"Status %d", loginFromStatus);
+    [pref setBool:NO forKey:@"isLogedin"];
+    [pref setValue:@"" forKey:@"UserName"];
+    [pref setValue:@"" forKey:@"EmailId"];
+    [pref setValue:@"" forKey:@"Gender"];
+    [pref setValue:@"" forKey:@"DateOfBirth"];
+    [pref synchronize];
+    if (loginFromStatus == 1) {
+       
+        LandingViewController *lVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+        [self.revealSideViewController popViewControllerWithNewCenterController:lVC  animated:YES];
+        [pref setInteger:0 forKey:@"LoggedInState"];
+        
+        
+    }else{
+        [fbLoginView.subviews[0] sendActionsForControlEvents:UIControlEventTouchUpInside];
+        self.loggedInUser = nil;
+        
+        [FBSession.activeSession closeAndClearTokenInformation];
+        [FBSession.activeSession close];
+        [FBSession setActiveSession:nil];
+        
+        if(FBSession.activeSession.isOpen)
+        {
+            
+        }
+        else
+        {
+
+            [pref setInteger:0 forKey:@"LoggedInState"];
+            [pref synchronize];
+
+            LandingViewController *lVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+            [self.revealSideViewController popViewControllerWithNewCenterController:lVC  animated:YES];
+            
+            
+        }
+        
+    }
+    
+
+}
+
 -(IBAction)backButtonTapped:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }

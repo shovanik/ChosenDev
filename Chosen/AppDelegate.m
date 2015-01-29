@@ -39,8 +39,8 @@
             if ([[url scheme] isEqualToString:@"myapp"] == NO) return NO;
             
             NSDictionary *d = [self parametersDictionaryFromQueryString:[url query]];
-            NSString *token = d[@"oauth_token"];
-            NSString *verifier = d[@"oauth_verifier"];
+           // NSString *token = d[@"oauth_token"];
+           // NSString *verifier = d[@"oauth_verifier"];
             
             //LandingViewController *landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
             //[landingViewController setOAuthToken:token oauthVerifier:verifier];
@@ -158,6 +158,9 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [FBSession.activeSession closeAndClearTokenInformation];
+    [FBSession.activeSession close];
+    [FBSession setActiveSession:nil];
 }
 
 @end

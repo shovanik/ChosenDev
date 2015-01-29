@@ -14,6 +14,7 @@
 #import "Context.h"
 #import "DataClass.h"
 #import "StepOneViewController.h"
+NSUserDefaults *sharedPref;
 
 @interface LandingViewController ()
 
@@ -37,6 +38,8 @@ FBLoginView *fbLoginView;
         }
     }*/
     //self.cpLabel.font = [UIFont fontWithName:@"Garamond" size:17];
+    sharedPref = [NSUserDefaults standardUserDefaults];
+
     
     
     fbLoginView=[[FBLoginView alloc] initWithReadPermissions:@[@"public_profile", @"email", @"user_friends"]];
@@ -93,6 +96,7 @@ FBLoginView *fbLoginView;
     {
         if ([obj isKindOfClass:[UIButton class]])
         {
+
             UIButton * loginButton =  obj;
             UIImage *loginImage = [UIImage imageNamed:@"fblogout.png"];
             [loginButton setBackgroundImage:loginImage forState:UIControlStateNormal];
@@ -130,18 +134,31 @@ FBLoginView *fbLoginView;
     NSLog(@"loggedIN: %@",self.loggedInUser);
     if(self.loggedInUser)
     {
+        NSLog(@"fb email= %@",[self.loggedInUser objectForKey:@"email"] );
+        NSString *uName = [self.loggedInUser objectForKey:@"email"];
+        NSString *eMail = [self.loggedInUser objectForKey:@"email"];
+        NSString *gender = @"";
+        if ([[self.loggedInUser objectForKey:@"gender"] isEqualToString:@"male"]) {
+            gender = @"1";
+        }else{
+            gender = @"2";
+
+        }
+        [sharedPref setValue:uName forKey:@"UserName"];
+        [sharedPref setValue:eMail forKey:@"EmailId"];
+        [sharedPref setValue:gender forKey:@"Gender"];
+        [sharedPref synchronize];
+
+        [sharedPref setBool:YES forKey:@"isLogedin"];
+
         StepOneViewController *sVC  = nil;
             if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-                //For Iphone4
                 sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
-                // NSLog(@"iPhone4");
             }else{
                 sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
-        
-                //  NSLog(@"iPhone6");
-        
             }
-            [self.navigationController pushViewController:sVC animated:YES];
+        [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
+
     }
     
     //[self.twitterButtonLabel setEnabled:NO];
@@ -164,30 +181,21 @@ FBLoginView *fbLoginView;
     return YES;
 }
 - (IBAction)fbloginClick:(id)sender {
+    [sharedPref setInteger:2 forKey:@"LoggedInState"];
     [fbLoginView.subviews[0] sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
 -(IBAction)loginButtonTapped:(id)sender
 {
     LoginViewController *lVC  = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-    /*if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-        //For Iphone4
-       lVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPhone4" bundle:nil];
-       // NSLog(@"iPhone4");
-    }else{
-        lVC =  [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];;
-        
-      //  NSLog(@"iPhone6");
-        
-    }*/
-    [self.navigationController pushViewController:lVC animated:YES];
+    [self.revealSideViewController popViewControllerWithNewCenterController:lVC  animated:YES];
 
-    
+
 }
 -(IBAction)registerButtonTapped:(id)sender
 {
     RegisterViewController *rVC  = [[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:nil];
-       [self.navigationController pushViewController:rVC animated:YES];
+    [self.revealSideViewController popViewControllerWithNewCenterController:rVC  animated:YES];
 
 }
 

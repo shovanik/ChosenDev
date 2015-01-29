@@ -14,7 +14,7 @@
 #import "AppDelegate.h"
 #import "StepOneViewController.h"
 #import "Guilds.h"
-
+NSUserDefaults *pref;
 @interface GuildViewController (){
     UIPageControl *pageControl;
     CGFloat _offset;
@@ -35,6 +35,8 @@ FBLoginView *fbLoginView;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _offset = 50;
+    pref = [NSUserDefaults standardUserDefaults];
+    
     [accurancySlider setMinimumTrackImage: [UIImage imageNamed:@"steps2_progress_bar_iph6.png"] forState: UIControlStateNormal];
     [accurancySlider setMaximumTrackImage: [UIImage imageNamed:@"steps_nav_bg_iphn6.png"] forState: UIControlStateNormal];
    // self.accurancySlider.thumbTintColor = [UIColor redColor];
@@ -121,6 +123,15 @@ FBLoginView *fbLoginView;
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    [self logAllUserDefaults];
+}
+- (void) logAllUserDefaults
+{
+    NSArray *keys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
+    NSArray *values = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allValues];
+    for (int i = 0; i < keys.count; i++) {
+        NSLog(@"%@: %@", [keys objectAtIndex:i], [values objectAtIndex:i]);
+    }
 }
 #pragma mark - InfinitePagingViewDelegate
 
@@ -142,22 +153,42 @@ FBLoginView *fbLoginView;
 }
 -(IBAction)backButtonTapped:(id)sender{
     //[self.navigationController popViewControllerAnimated:YES];
+    NSInteger loginFromStatus = [[pref valueForKey:@"LoggedInState"] intValue];
+    NSLog(@"Status %d", loginFromStatus);
     
-    [fbLoginView.subviews[0] sendActionsForControlEvents:UIControlEventTouchUpInside];
-    self.loggedInUser = nil;
-    
-    [FBSession.activeSession closeAndClearTokenInformation];
-    [FBSession.activeSession close];
-    [FBSession setActiveSession:nil];
-    
-    if(FBSession.activeSession.isOpen)
-    {
+    if (loginFromStatus == 1) {
+        [pref setValue:@"" forKey:@"UserName"];
+        [pref setValue:@"" forKey:@"EmailId"];
+        [pref setValue:@"" forKey:@"Gender"];
+        [pref setValue:@"" forKey:@"DateOfBirth"];
+        [pref synchronize];
+        LandingViewController *lVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+        [self.revealSideViewController popViewControllerWithNewCenterController:lVC  animated:YES];
+        [pref setInteger:0 forKey:@"LoggedInState"];
+
+
+    }else{
+        [fbLoginView.subviews[0] sendActionsForControlEvents:UIControlEventTouchUpInside];
+        self.loggedInUser = nil;
         
-    }
-    else
-    {
-        LandingViewController *sVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
-        [self.navigationController pushViewController:sVC animated:YES];
+        [FBSession.activeSession closeAndClearTokenInformation];
+        [FBSession.activeSession close];
+        [FBSession setActiveSession:nil];
+        
+        if(FBSession.activeSession.isOpen)
+        {
+            
+        }
+        else
+        {
+            [pref setInteger:0 forKey:@"LoggedInState"];
+
+            LandingViewController *lVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+            [self.revealSideViewController popViewControllerWithNewCenterController:lVC  animated:YES];
+
+
+        }
+        
     }
     
     

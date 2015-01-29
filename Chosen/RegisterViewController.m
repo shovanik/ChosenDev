@@ -9,7 +9,9 @@
 #import "RegisterViewController.h"
 #import "Context.h"
 #import "StepOneViewController.h"
+#import "LandingViewController.h"
 #import "DataClass.h"
+NSUserDefaults *pref;
 
 @interface RegisterViewController (){
     
@@ -30,11 +32,13 @@
 
 @implementation RegisterViewController
 @synthesize regContentView, userNameTextField, passwordTextField, conformPasswordTextField,dobTextField,emailTextField, maleButton, femaleButton, navTitle, genderString, regContentViewVerticalyCenter;
-int UserID;
+int UserID, registrationStatus;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    pref = [NSUserDefaults standardUserDefaults];
+
     self.maleButton.selected = YES;
     self.genderString = @"1";
     self.userNameTextField.font = [UIFont fontWithName:@"Garamond" size:17];
@@ -100,7 +104,8 @@ int UserID;
     return YES;
 }
 -(IBAction)backButtonTapped:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
+    LandingViewController *lVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+    [self.revealSideViewController popViewControllerWithNewCenterController:lVC  animated:YES];
 }
 
 
@@ -139,7 +144,12 @@ int UserID;
     [UIView setAnimationCurve:[curve intValue]];
     
     // set views with new info
-    regContentViewVerticalyCenter.constant = 130;
+    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+        regContentViewVerticalyCenter.constant = 100;
+    }else{
+        regContentViewVerticalyCenter.constant = 130;
+    }
+
     self.regContentView.frame = containerFrame;
     
     
@@ -216,6 +226,7 @@ int UserID;
     BOOL /*lowerCaseLetter = false,upperCaseLetter = false,*/digit = false,specialCharacter = false;
     if([checkString length] >= 8)
     {
+        
         for (int i = 0; i < [checkString length]; i++)
         {
             unichar c = [checkString characterAtIndex:i];
@@ -269,46 +280,44 @@ int UserID;
             [self alertStatus:@"Your password must be 8 characters long." :@"Registration Failed!"];
 
         }
-      /* else
-        if(![self NSStringIsValidPassword:[self.passwordTextField text]])
+      /* else if(![self NSStringIsValidPassword:[self.passwordTextField text]])
         {
             //[self alertStatus:@"Your password must contain at least one numeric number or one special character." :@"Registration Failed!"];
         }*/
-        else if (![self.passwordTextField.text isEqualToString:self.conformPasswordTextField.text]) {
+        if (![self.passwordTextField.text isEqualToString:self.conformPasswordTextField.text]) {
             [self alertStatus:@"The password entered does not match the confirmation password." :@"Registration Failed!"];
 
         }
-        else if(![self NSStringIsValidEmail:[self.emailTextField text]])
+        if(![self NSStringIsValidEmail:[self.emailTextField text]])
         {
             [self alertStatus:@"Please enter valid Email ID" :@"Registration Failed!"];
         }
         else
         {
-      
-        
-        StepOneViewController *sVC  = nil;
-        if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-            //For Iphone4
-            sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
-            // NSLog(@"iPhone4");
-        }else{
-            sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
+
+            StepOneViewController *sVC  = nil;
+            if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+                sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
+            }
             
-            //  NSLog(@"iPhone6");
+            else
+            {
+                sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];
+            }
+            DataClass *commonData = [[DataClass alloc] init];
+
+            commonData.isLoginButtonClicked =NO;
+            [pref setInteger:1 forKey:@"LoggedInState"];
+
+            NSDictionary *params = @{@"user_name" : userNameTextField.text,
+                                     @"password" : passwordTextField.text,
+                                     @"gender" : genderString,
+                                     @"email" : emailTextField.text,
+                                     @"date_of_birth" : dobTextField.text};
             
-        }
-        DataClass *commonData = [[DataClass alloc] init];
-        commonData.isLoginButtonClicked =NO;
-        
-        NSDictionary *params = @{@"user_name" : userNameTextField.text,
-                                 @"password" : passwordTextField.text,
-                                 @"gender" : genderString,
-                                 @"email" : emailTextField.text,
-                                 @"date_of_birth" : dobTextField.text};
-        
-        
-        //[self.activityIndicatorView startAnimating];
-        
+            
+            //[self.activityIndicatorView startAnimating];
+            
         
         [commonData apiCall:params method:@"POST" completionHandler:^(id response, NSError *error)
          {
@@ -320,13 +329,61 @@ int UserID;
              
              else
              {
-                 NSLog(@"API Response : %@", response);
-                 int status =[[response valueForKey:@"status"] intValue];
+                 NSLog(@"Register API Response : %@", response);
+                  registrationStatus =[[response valueForKey:@"status"] intValue];
                  
-                 if (status==1)
+                 if (registrationStatus==1)
                  {
-                     [self.navigationController pushViewController:sVC animated:YES];
+                     [self alertStatus:@"Registration Successful." :nil];
                      
+                     commonData.isLoginButtonClicked=YES;
+                     [pref setInteger:1 forKey:@"LoggedInState"];
+                     
+                     
+                     NSDictionary *params2 = @{@"user_name" : userNameTextField.text,
+                                               @"password" : passwordTextField.text};
+                     
+                     
+                     [commonData apiCall:params2 method:@"POST" completionHandler:^(id response, NSError *error)
+                      {
+                          if (error)
+                          {
+                              NSLog(@"API Error : %@", error);
+                          }
+                          
+                          else
+                          {
+                              NSLog(@"Login API Response : %@", response);
+                              int status2 =[[response valueForKey:@"status"] intValue];
+                              
+                              if (status2==1)
+                              {
+                                  [pref setBool:YES forKey:@"isLogedin"];
+
+                                  NSDictionary *userInfoDic = [response objectForKey:@"response"];
+                                  NSString *uName = [userInfoDic objectForKey:@"user_name"];
+                                  NSString *eMail = [userInfoDic objectForKey:@"email"];
+                                  NSString *gender = [userInfoDic objectForKey:@"gender"];
+                                  NSString *dob = [userInfoDic objectForKey:@"date_of_birth"];
+                                  [pref setValue:uName forKey:@"UserName"];
+                                  [pref setValue:eMail forKey:@"EmailId"];
+                                  [pref setValue:gender forKey:@"Gender"];
+                                  [pref setValue:dob forKey:@"DateOfBirth"];
+                                  [pref synchronize];
+                                  
+                                  commonData.isLoginButtonClicked=NO;
+                                  [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
+                              }
+                          }
+                          
+                      }];
+
+
+                     //[self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
+                 }
+                 else if ([[response valueForKey:@"error"] isEqualToString:@"Username already exists."]){
+                     [self alertStatus:@"User name already exists." :@"Registration Failed!"];
+
                  }
                  else
                  {
@@ -342,7 +399,7 @@ int UserID;
              }
              
          }];
-  
+
         
     }
 }
@@ -423,11 +480,6 @@ int UserID;
     self.dobTextField.text = formattedDateString;
     
     NSLog(@"Dob = %@", self.dobTextField.text);
-    /*if (([self.seletedDateButtonString caseInsensitiveCompare:START_DATE_BUTTON_CLICKED_KEY]) == NSOrderedSame) {
-        self.assignmentStartDateTextField.text = formattedDateString;
-    } else if (([self.seletedDateButtonString caseInsensitiveCompare:END_DATE_BUTTON_CLICKED_KEY]) == NSOrderedSame) {
-        self.assignmentProjectEndDateTextField.text = formattedDateString;
-    }*/
     
 }
 -(void)assignmentStartDateDoneButtonTapped{

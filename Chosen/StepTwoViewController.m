@@ -36,7 +36,7 @@
     // Dispose of any resources that can be recreated.
 }
 -(IBAction)backButtonTapped:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
+  //  [self.navigationController popViewControllerAnimated:YES];
 }
 - (BOOL)prefersStatusBarHidden {
     return YES;
@@ -53,7 +53,10 @@
         //  NSLog(@"iPhone6");
         
     }
-    [self.navigationController pushViewController:gVC animated:YES];
+    //[self.navigationController pushViewController:gVC animated:YES];
+    [self.revealSideViewController popViewControllerWithNewCenterController:gVC  animated:YES];
+
+
 }
 
 

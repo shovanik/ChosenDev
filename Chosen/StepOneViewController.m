@@ -32,32 +32,26 @@
 -(IBAction)nextButtonTapped:(id)sender{
         StepTwoViewController *sVC  = nil;
         if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-            //For Iphone4
             sVC = [[StepTwoViewController alloc] initWithNibName:@"StepTwoViewController_iPhone4" bundle:nil];
-            // NSLog(@"iPhone4");
         }else{
             sVC =  [[StepTwoViewController alloc] initWithNibName:@"StepTwoViewController" bundle:nil];;
             
-            //  NSLog(@"iPhone6");
-            
         }
-        [self.navigationController pushViewController:sVC animated:YES];
+    [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
+
     
 
 }
 -(IBAction)skipButtonTapped:(id)sender{
     GuildViewController *gVC  = nil;
     if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-        //For Iphone4
         gVC = [[GuildViewController alloc] initWithNibName:@"GuildViewController_iPhone4" bundle:nil];
-        // NSLog(@"iPhone4");
     }else{
         gVC =  [[GuildViewController alloc] initWithNibName:@"GuildViewController" bundle:nil];
-        
-        //  NSLog(@"iPhone6");
-        
+            
     }
-    [self.navigationController pushViewController:gVC animated:YES];
+    [self.revealSideViewController popViewControllerWithNewCenterController:gVC  animated:YES];
+
 }
 - (BOOL)prefersStatusBarHidden {
     return YES;
@@ -69,7 +63,7 @@
     // Dispose of any resources that can be recreated.
 }
 -(IBAction)backButtonTapped:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
+    //[self.navigationController popViewControllerAnimated:YES];
 }
 
 

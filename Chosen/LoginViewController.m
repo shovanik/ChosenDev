@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "StepOneViewController.h"
+#import "LandingViewController.h"
 #import "Context.h"
 #import "DataClass.h"
 NSUserDefaults *pref;
@@ -119,22 +120,22 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 140;
     [textField resignFirstResponder];
     return YES;
 }
+- (void) alertStatus:(NSString *)msg :(NSString *)title
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:msg
+                                                       delegate:self
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
 
 -(IBAction)loginButtonTapped:(id)sender
 {
-    StepOneViewController *sVC  = nil;
-    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-        //For Iphone4
-        sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
-        // NSLog(@"iPhone4");
-    }else{
-        sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
-        
-        //  NSLog(@"iPhone6");
-        
-    }
     DataClass *commonData = [[DataClass alloc] init];
     commonData.isLoginButtonClicked=YES;
+    [pref setInteger:1 forKey:@"LoggedInState"];
+
     
     NSDictionary *params = @{@"user_name" : userNameTextField.text,
                              @"password" : passwordTextField.text};
@@ -154,8 +155,27 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 140;
              
              if (status==1)
              {
-                 [self.navigationController pushViewController:sVC animated:YES];
-                 
+                 [pref setBool:YES forKey:@"isLogedin"];
+                 [self alertStatus:@"Login Successful." :nil];
+                 NSDictionary *userInfoDic = [response objectForKey:@"response"];
+                 NSString *uName = [userInfoDic objectForKey:@"user_name"];
+                 NSString *eMail = [userInfoDic objectForKey:@"email"];
+                 NSString *gender = [userInfoDic objectForKey:@"gender"];
+                 NSString *dob = [userInfoDic objectForKey:@"date_of_birth"];
+                 [pref setValue:uName forKey:@"UserName"];
+                 [pref setValue:eMail forKey:@"EmailId"];
+                 [pref setValue:gender forKey:@"Gender"];
+                 [pref setValue:dob forKey:@"DateOfBirth"];
+                 [pref synchronize];
+
+                 StepOneViewController *sVC  = nil;
+                 if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+                     sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
+                 }else{
+                     sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];
+                 }
+
+                 [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
              }
              else
              {
@@ -173,7 +193,6 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 140;
      }];
 
     
-    //[self.navigationController pushViewController:sVC animated:YES];
 
 }
 
@@ -184,7 +203,10 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 140;
     // Dispose of any resources that can be recreated.
 }
 -(IBAction)backButtonTapped:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
+    //[self.navigationController popViewControllerAnimated:YES];
+    LandingViewController *lVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+    [self.revealSideViewController popViewControllerWithNewCenterController:lVC  animated:YES];
+
 }
 /*
 #pragma mark - Navigation

@@ -15,7 +15,7 @@
     
     if (self = [super init]) {
         
-        //ROOT_LOCATION = @"http://192.168.0.1/Chosen/";
+       // ROOT_LOCATION = @"http://192.168.0.1/Chosen/";
         
        ROOT_LOCATION = @"http://chosen.sulavmart.com/";
     

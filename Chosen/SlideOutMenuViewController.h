@@ -21,6 +21,9 @@
 @property (nonatomic, strong) IBOutlet UIButton *tournamentButton;
 @property (nonatomic, strong) IBOutlet UIButton *settingsButton;
 @property (nonatomic, strong) IBOutlet UITableView *menuTableviewTableView;
+@property (strong, nonatomic) id<FBGraphUser> loggedInUser;
+
+- (IBAction)logoutButtonTapped:(id)sender;
 
 -(IBAction)backButtonTapped:(id)sender;
 
