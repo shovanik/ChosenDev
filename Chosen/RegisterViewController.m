@@ -223,48 +223,49 @@ int UserID, registrationStatus;
 }
 -(BOOL) NSStringIsValidPassword:(NSString *)checkString
 {
-    BOOL /*lowerCaseLetter = false,upperCaseLetter = false,*/digit = false,specialCharacter = false;
+    BOOL digit = false;
     if([checkString length] >= 8)
     {
         
         for (int i = 0; i < [checkString length]; i++)
         {
             unichar c = [checkString characterAtIndex:i];
-           /* if(!lowerCaseLetter)
-            {
-                lowerCaseLetter = [[NSCharacterSet lowercaseLetterCharacterSet] characterIsMember:c];
-            }
-            if(!upperCaseLetter)
-            {
-                upperCaseLetter = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:c];
-            }*/
             if(!digit)
             {
                 digit = [[NSCharacterSet decimalDigitCharacterSet] characterIsMember:c];
             }
-            if(!specialCharacter)
-            {
-                specialCharacter = [[NSCharacterSet symbolCharacterSet] characterIsMember:c];
-            }
+
         }
-        
-        if(specialCharacter && digit /*&& lowerCaseLetter && upperCaseLetter*/)
-        {
-            //do what u want
+        if (digit) {
             return YES;
+
+        }else{
+            [self alertStatus:@"Your password must contain at least one number and one upper or lowercase letter" :@"Registration Failed!"];
+
+        }
+        /*NSCharacterSet * set = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789"] invertedSet];
+        if ([checkString rangeOfCharacterFromSet:set].location == NSNotFound && !digit)
+        {
+            NSLog(@"NO SPECIAL CHARACTER");
+            [self alertStatus:@"Your password must contain at least one number and one upper or lowercase letter" :@"Registration Failed!"];
+
         }
         else
         {
-            [self alertStatus:@"Your password must contain at least one numeric number or one special character." :@"Registration Failed!"];
-        }
+            NSLog(@"HAS SPECIAL CHARACTER");
+            return YES;
+            
+        }*/
         
     }
     else
     {
         [self alertStatus:@"Your password must be 8 characters long." :@"Registration Failed!"];
     }
+    
     return NO;
 }
+
 
 -(IBAction)submitButtonTapped:(id)sender
 {
@@ -275,20 +276,13 @@ int UserID, registrationStatus;
     }
     else
     {
-        if(self.passwordTextField.text.length <8 )
-        {
-            [self alertStatus:@"Your password must be 8 characters long." :@"Registration Failed!"];
-
-        }
-      /* else if(![self NSStringIsValidPassword:[self.passwordTextField text]])
+        if(![self NSStringIsValidPassword:[self.passwordTextField text]])
         {
             //[self alertStatus:@"Your password must contain at least one numeric number or one special character." :@"Registration Failed!"];
-        }*/
-        if (![self.passwordTextField.text isEqualToString:self.conformPasswordTextField.text]) {
+        }else if (![self.passwordTextField.text isEqualToString:self.conformPasswordTextField.text]) {
             [self alertStatus:@"The password entered does not match the confirmation password." :@"Registration Failed!"];
 
-        }
-        if(![self NSStringIsValidEmail:[self.emailTextField text]])
+        }else if(![self NSStringIsValidEmail:[self.emailTextField text]])
         {
             [self alertStatus:@"Please enter valid Email ID" :@"Registration Failed!"];
         }
@@ -384,6 +378,9 @@ int UserID, registrationStatus;
                  else if ([[response valueForKey:@"error"] isEqualToString:@"Username already exists."]){
                      [self alertStatus:@"User name already exists." :@"Registration Failed!"];
 
+                 }else if ([[response valueForKey:@"error"] isEqualToString:@"Email address already exists"]){
+                     [self alertStatus:@"User name already exists." :@"Registration Failed!"];
+                     
                  }
                  else
                  {
