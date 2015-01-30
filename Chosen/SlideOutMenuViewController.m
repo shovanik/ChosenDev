@@ -10,8 +10,10 @@
 #import "SettingsViewController.h"
 #import "TournamentViewController.h"
 #import "LandingViewController.h"
+#import "STTwitter.h"
 NSUserDefaults *pref;
 @interface SlideOutMenuViewController ()
+@property (nonatomic, strong) STTwitterAPI *twitter;
 
 @end
 
@@ -39,7 +41,7 @@ FBLoginView *fbLoginView;
 - (IBAction)logoutButtonTapped:(id)sender {
     
     NSInteger loginFromStatus = [[pref valueForKey:@"LoggedInState"] intValue];
-    NSLog(@"Status %d", loginFromStatus);
+    NSLog(@"Status %ld", (long)loginFromStatus);
     [pref setBool:NO forKey:@"isLogedin"];
     [pref setValue:@"" forKey:@"UserName"];
     [pref setValue:@"" forKey:@"EmailId"];
@@ -53,7 +55,7 @@ FBLoginView *fbLoginView;
         [pref setInteger:0 forKey:@"LoggedInState"];
         
         
-    }else{
+    }else if (loginFromStatus == 2){
         [fbLoginView.subviews[0] sendActionsForControlEvents:UIControlEventTouchUpInside];
         self.loggedInUser = nil;
         
@@ -77,7 +79,16 @@ FBLoginView *fbLoginView;
             
         }
         
+    }else{
+        [pref setInteger:0 forKey:@"LoggedInState"];
+        self.twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:nil
+                                                     consumerSecret:nil];
+        
+        LandingViewController *lVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+        [self.revealSideViewController popViewControllerWithNewCenterController:lVC  animated:YES];
+
     }
+    
     
 
 }

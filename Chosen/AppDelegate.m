@@ -14,6 +14,7 @@
 #import <Social/Social.h>
 #import "LandingViewController.h"
 #import "StepOneViewController.h"
+#import "STTwitter.h"
 
 
 @interface AppDelegate ()
@@ -39,11 +40,11 @@
             if ([[url scheme] isEqualToString:@"myapp"] == NO) return NO;
             
             NSDictionary *d = [self parametersDictionaryFromQueryString:[url query]];
-           // NSString *token = d[@"oauth_token"];
-           // NSString *verifier = d[@"oauth_verifier"];
+            NSString *token = d[@"oauth_token"];
+            NSString *verifier = d[@"oauth_verifier"];
             
-            //LandingViewController *landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
-            //[landingViewController setOAuthToken:token oauthVerifier:verifier];
+            LandingViewController *landingViewController =  (LandingViewController *)[_revealSideViewController rootViewController];
+            [landingViewController setOAuthToken:token oauthVerifier:verifier];
         }
         return YES;
     }
@@ -86,9 +87,9 @@
     self.window.backgroundColor = [UIColor whiteColor];
     LandingViewController *landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
 
-    navigationcontroller = [[UINavigationController alloc]initWithRootViewController:landingViewController];
-    _revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:navigationcontroller];
-    
+    //navigationcontroller = [[UINavigationController alloc]initWithRootViewController:landingViewController];
+    _revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:landingViewController];
+        
     _revealSideViewController.delegate = self;
     
     self.window.rootViewController = _revealSideViewController;

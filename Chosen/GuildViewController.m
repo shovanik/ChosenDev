@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "StepOneViewController.h"
 #import "Guilds.h"
+#import "STTwitter.h"
 NSUserDefaults *pref;
 @interface GuildViewController (){
     UIPageControl *pageControl;
@@ -21,6 +22,8 @@ NSUserDefaults *pref;
 
 
 }
+@property (nonatomic, strong) STTwitterAPI *twitter;
+
 @property (nonatomic, strong) NSMutableDictionary *guildDictionary;
 @property (nonatomic, strong) NSArray *guildImageArray;
 @property (nonatomic, strong) NSArray *guildsArray;
@@ -154,20 +157,20 @@ FBLoginView *fbLoginView;
 -(IBAction)backButtonTapped:(id)sender{
     //[self.navigationController popViewControllerAnimated:YES];
     NSInteger loginFromStatus = [[pref valueForKey:@"LoggedInState"] intValue];
-    NSLog(@"Status %d", loginFromStatus);
-    
+    NSLog(@"Status %ld", (long)loginFromStatus);
+    [pref setValue:@"" forKey:@"UserName"];
+    [pref setValue:@"" forKey:@"EmailId"];
+    [pref setValue:@"" forKey:@"Gender"];
+    [pref setValue:@"" forKey:@"DateOfBirth"];
+    [pref synchronize];
     if (loginFromStatus == 1) {
-        [pref setValue:@"" forKey:@"UserName"];
-        [pref setValue:@"" forKey:@"EmailId"];
-        [pref setValue:@"" forKey:@"Gender"];
-        [pref setValue:@"" forKey:@"DateOfBirth"];
-        [pref synchronize];
+        
         LandingViewController *lVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
         [self.revealSideViewController popViewControllerWithNewCenterController:lVC  animated:YES];
         [pref setInteger:0 forKey:@"LoggedInState"];
 
 
-    }else{
+    }else if (loginFromStatus == 2){
         [fbLoginView.subviews[0] sendActionsForControlEvents:UIControlEventTouchUpInside];
         self.loggedInUser = nil;
         
@@ -189,6 +192,14 @@ FBLoginView *fbLoginView;
 
         }
         
+    }else{
+        
+        [pref setInteger:0 forKey:@"LoggedInState"];
+        self.twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:nil
+                                                     consumerSecret:nil];
+
+        LandingViewController *lVC  = [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
+        [self.revealSideViewController popViewControllerWithNewCenterController:lVC  animated:YES];
     }
     
     

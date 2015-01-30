@@ -17,12 +17,14 @@
 NSUserDefaults *sharedPref;
 
 @interface LandingViewController ()
+@property (nonatomic, strong) STTwitterAPI *twitter;
 
 @end
 
 @implementation LandingViewController
 @synthesize cpLabel;
 FBLoginView *fbLoginView;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -200,14 +202,91 @@ FBLoginView *fbLoginView;
 }
 
 
-/*
-#pragma mark - Navigation
+-(void)setOAuthToken:(NSString *)token oauthVerifier:(NSString *)verifier {
+    
+    // in case the user has just authenticated through WebViewVC
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    
+    [_twitter postAccessTokenRequestWithPIN:verifier successBlock:^(NSString *oauthToken, NSString *oauthTokenSecret, NSString *userID, NSString *screenName) {
+        NSLog(@"-- UserID: %@", userID);
+        
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+        [self.twitter getUsersShowForUserID:userID orScreenName:screenName includeEntities:nil successBlock:^(NSDictionary *user) {
+            
+            NSLog(@"TW User Details =  %@",user);
+            NSLog(@"Screen Name =%@ ", screenName);
+            
+            [sharedPref setValue:screenName forKey:@"UserName"];
+            //[sharedPref setValue:eMail forKey:@"EmailId"];
+            //[sharedPref setValue:gender forKey:@"Gender"];
+            [sharedPref synchronize];
+            
+            [sharedPref setBool:YES forKey:@"isLogedin"];
+            
+            StepOneViewController *sVC  = nil;
+            if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+                sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
+            }else{
+                sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
+            }
+            [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
+            
+            
+        }errorBlock:^(NSError *error) {
+            
+            //self.fbNameLabel.text = [error localizedDescription];
+            NSLog(@"-- %@", [error localizedDescription]);
+        }];
+
+        
+        /*
+         At this point, the user can use the API and you can read his access tokens with:
+         
+         _twitter.oauthAccessToken;
+         _twitter.oauthAccessTokenSecret;
+         
+         You can store these tokens (in user default, or in keychain) so that the user doesn't need to authenticate again on next launches.
+         
+         Next time, just instanciate STTwitter with the class method:
+         
+         +[STTwitterAPI twitterAPIWithOAuthConsumerKey:consumerSecret:oauthToken:oauthTokenSecret:]
+         
+         Don't forget to call the -[STTwitter verifyCredentialsWithSuccessBlock:errorBlock:] after that.
+         */
+        
+    } errorBlock:^(NSError *error) {
+        NSLog(@"-- %@", [error localizedDescription]);
+    }];
+    
 }
-*/
+
+
+- (IBAction)twitterClick:(id)sender {
+    [sharedPref setInteger:3 forKey:@"LoggedInState"];
+
+    
+    self.twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:TWITTER_CLIENT_KEY
+                                                 consumerSecret:TWITTER_CLIENT_SECRET];
+    
+    
+    [_twitter postTokenRequest:^(NSURL *url, NSString *oauthToken) {
+        NSLog(@"-- url: %@", url);
+        NSLog(@"-- oauthToken: %@", oauthToken);
+        
+        
+        [[UIApplication sharedApplication] openURL:url];
+        
+    } authenticateInsteadOfAuthorize:NO
+                    forceLogin:@(YES)
+                    screenName:nil
+                 oauthCallback:@"myapp://twitter_access_tokens/"
+                    errorBlock:^(NSError *error) {
+                        NSLog(@"-- error: %@", error);
+                    }];
+    
+    
+}
 
 @end

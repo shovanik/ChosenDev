@@ -19,6 +19,9 @@
 - (IBAction)fbloginClick:(id)sender;
 -(IBAction)loginButtonTapped:(id)sender;
 -(IBAction)registerButtonTapped:(id)sender;
+- (IBAction)twitterClick:(id)sender;
 @property (nonatomic, strong) IBOutlet UILabel *cpLabel;
 @property (strong, nonatomic) id<FBGraphUser> loggedInUser;
+
+-(void)setOAuthToken:(NSString *)token oauthVerifier:(NSString *)verfier;
 @end
