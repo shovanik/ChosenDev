@@ -11,6 +11,7 @@
 @interface StepTwoViewController : UIViewController
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
 @property (nonatomic, strong) IBOutlet UILabel *helpLabel;
+@property (nonatomic, strong) IBOutlet UILabel *stepLabel;
 @property (nonatomic, strong) IBOutlet UIButton *cancelbutton;
 @property (nonatomic, strong) IBOutlet UIButton *playButton;
 -(IBAction)backButtonTapped:(id)sender;

@@ -55,6 +55,9 @@ NSUserDefaults *pref;
     self.passwordTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName: color}];
     self.userNameTextField.textColor = color;
     self.passwordTextField.textColor = color;
+    
+    userNameTextField.text = @"chinu.sahu4";
+    passwordTextField.text = @"password123";
 
 }
 - (BOOL)prefersStatusBarHidden {
@@ -168,13 +171,8 @@ static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 140;
                  [pref setValue:dob forKey:@"DateOfBirth"];
                  [pref synchronize];
 
-                 StepOneViewController *sVC  = nil;
-                 if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-                     sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
-                 }else{
-                     sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];
-                 }
-
+                 StepOneViewController *sVC  = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];
+                
                  [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
              }
              else

@@ -250,17 +250,7 @@ FBLoginView *fbLoginView;
     NSLog(@"loggedIN: %@",self.loggedInUser);
     if(self.loggedInUser)
     {
-        StepOneViewController *sVC  = nil;
-        if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-            //For Iphone4
-            sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
-            // NSLog(@"iPhone4");
-        }else{
-            sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
-            
-            //  NSLog(@"iPhone6");
-            
-        }
+        StepOneViewController *sVC  = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];
         [self.navigationController pushViewController:sVC animated:YES];
     }
     

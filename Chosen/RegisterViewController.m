@@ -175,8 +175,6 @@ int UserID, registrationStatus;
     
 }
 
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -289,15 +287,7 @@ int UserID, registrationStatus;
         else
         {
 
-            StepOneViewController *sVC  = nil;
-            if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-                sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
-            }
-            
-            else
-            {
-                sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];
-            }
+            StepOneViewController *sVC  = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
             DataClass *commonData = [[DataClass alloc] init];
 
             commonData.isLoginButtonClicked =NO;

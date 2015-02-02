@@ -31,14 +31,14 @@ FBLoginView *fbLoginView;
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBarHidden = YES;
     //Print all font name
-   /* for(NSString *family in [UIFont familyNames])
+    for(NSString *family in [UIFont familyNames])
     {
         NSLog(@"%@", family);
         for(NSString* name in [UIFont fontNamesForFamilyName: family])
         {
             NSLog(@"  %@", name);
         }
-    }*/
+    }
     //self.cpLabel.font = [UIFont fontWithName:@"Garamond" size:17];
     sharedPref = [NSUserDefaults standardUserDefaults];
 
@@ -153,12 +153,7 @@ FBLoginView *fbLoginView;
 
         [sharedPref setBool:YES forKey:@"isLogedin"];
 
-        StepOneViewController *sVC  = nil;
-            if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-                sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
-            }else{
-                sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
-            }
+        StepOneViewController *sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];
         [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
 
     }
@@ -225,12 +220,7 @@ FBLoginView *fbLoginView;
             
             [sharedPref setBool:YES forKey:@"isLogedin"];
             
-            StepOneViewController *sVC  = nil;
-            if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-                sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController_iPhone4" bundle:nil];
-            }else{
-                sVC =  [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
-            }
+            StepOneViewController *sVC = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];
             [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
             
             
@@ -264,8 +254,6 @@ FBLoginView *fbLoginView;
 
 
 - (IBAction)twitterClick:(id)sender {
-    [sharedPref setInteger:3 forKey:@"LoggedInState"];
-
     
     self.twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:TWITTER_CLIENT_KEY
                                                  consumerSecret:TWITTER_CLIENT_SECRET];

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CD104B671A41DA160051BABF /* StepOneViewController_iPhone4.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD104B661A41DA160051BABF /* StepOneViewController_iPhone4.xib */; };
 		CD104B6E1A41DC1E0051BABF /* step_content_bg_iphn4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD104B691A41DC1E0051BABF /* step_content_bg_iphn4@2x.png */; };
 		CD104B6F1A41DC1E0051BABF /* step_next_iphn4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD104B6A1A41DC1E0051BABF /* step_next_iphn4@2x.png */; };
 		CD104B701A41DC1E0051BABF /* step_one_pro_iphn4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD104B6B1A41DC1E0051BABF /* step_one_pro_iphn4@2x.png */; };
@@ -280,7 +279,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CD104B661A41DA160051BABF /* StepOneViewController_iPhone4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepOneViewController_iPhone4.xib; sourceTree = "<group>"; };
 		CD104B691A41DC1E0051BABF /* step_content_bg_iphn4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "step_content_bg_iphn4@2x.png"; sourceTree = "<group>"; };
 		CD104B6A1A41DC1E0051BABF /* step_next_iphn4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "step_next_iphn4@2x.png"; sourceTree = "<group>"; };
 		CD104B6B1A41DC1E0051BABF /* step_one_pro_iphn4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "step_one_pro_iphn4@2x.png"; sourceTree = "<group>"; };
@@ -290,7 +288,6 @@
 		CD104B741A41DFE10051BABF /* StepTwoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StepTwoViewController.h; sourceTree = "<group>"; };
 		CD104B751A41DFE10051BABF /* StepTwoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StepTwoViewController.m; sourceTree = "<group>"; };
 		CD104B761A41DFE10051BABF /* StepTwoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepTwoViewController.xib; sourceTree = "<group>"; };
-		CD4EAD221A4073E800744695 /* Chosen-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Chosen-Prefix.pch"; sourceTree = "<group>"; };
 		CD4EAD241A4075F200744695 /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Context.h; sourceTree = "<group>"; };
 		CD4EAD251A4075F200744695 /* Context.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Context.m; sourceTree = "<group>"; };
 		CD4EAD2B1A40878E00744695 /* login_bg-iphn4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_bg-iphn4@2x.png"; sourceTree = "<group>"; };
@@ -475,6 +472,7 @@
 		CDE1C21D1A49D3D200287F9F /* two_star_iphn4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "two_star_iphn4@2x.png"; sourceTree = "<group>"; };
 		D604227A1A7A1DE300C24A04 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		D604227B1A7A1DE300C24A04 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		D641A0891A7F8EAF0032CDF0 /* Chosen-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Chosen-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		D64322AD1A7920EC001F69E9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		D64322AF1A79210F001F69E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D64322B11A792115001F69E9 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -754,7 +752,7 @@
 		CD79B13A1A3F1DB800AFD912 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				CD4EAD221A4073E800744695 /* Chosen-Prefix.pch */,
+				D641A0891A7F8EAF0032CDF0 /* Chosen-Prefix.pch */,
 				CD79B1851A3F3D5000AFD912 /* Icon-60@3x.png */,
 				CD79B1861A3F3D5000AFD912 /* Icon-60@2x.png */,
 				CD79B1651A3F272800AFD912 /* Default-667h.png */,
@@ -1155,7 +1153,6 @@
 				CD989EE11A41CE3E005D0380 /* StepOneViewController.h */,
 				CD989EE21A41CE3E005D0380 /* StepOneViewController.m */,
 				CD989EE31A41CE3E005D0380 /* StepOneViewController.xib */,
-				CD104B661A41DA160051BABF /* StepOneViewController_iPhone4.xib */,
 				CD104B741A41DFE10051BABF /* StepTwoViewController.h */,
 				CD104B751A41DFE10051BABF /* StepTwoViewController.m */,
 				CD104B731A41DFE10051BABF /* StepTwoViewController_iPhone4.xib */,
@@ -1329,7 +1326,6 @@
 				CDA080ED1A42F1E60056BA7F /* smenu_guild_normal_iphn4@2x.png in Resources */,
 				CD54C8C11A41A40D00BB9AD6 /* male_normal_iphn6@2x.png in Resources */,
 				CD5503911A4304990082C805 /* step_two_content_bg_iphn4@2x.png in Resources */,
-				CD104B671A41DA160051BABF /* StepOneViewController_iPhone4.xib in Resources */,
 				CD8AFBF61A4187C80090F545 /* register_content_bg_iphn6@2x.png in Resources */,
 				D6C44B5A1A66746600AFFB9B /* trmDet_group_iphn4@2x.png in Resources */,
 				CD104B701A41DC1E0051BABF /* step_one_pro_iphn4@2x.png in Resources */,
@@ -1601,6 +1597,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Chosen-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1645,6 +1642,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Chosen-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1672,7 +1670,7 @@
 					"$(PROJECT_DIR)/FacebookSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Chosen/Chosen-Prefix.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Chosen-Prefix.pch";
 				INFOPLIST_FILE = Chosen/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1693,7 +1691,7 @@
 					"$(PROJECT_DIR)/FacebookSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Chosen/Chosen-Prefix.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Chosen-Prefix.pch";
 				INFOPLIST_FILE = Chosen/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
