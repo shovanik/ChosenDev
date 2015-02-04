@@ -34,7 +34,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9uJ-sz-m2a">
                     <rect key="frame" x="20" y="10" width="30" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="menu_button_iphn6.png">
+                    <state key="normal" backgroundImage="slidemenu">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
@@ -88,9 +88,9 @@
     </objects>
     <resources>
         <image name="landing_screen_bg.png" width="375" height="667"/>
-        <image name="menu_button_iphn6.png" width="30" height="25"/>
         <image name="nav_bg_iphn6.png" width="375" height="77"/>
         <image name="plus_icon_iphn6.png" width="29" height="28"/>
+        <image name="slidemenu" width="25" height="21"/>
         <image name="trm_details_mostKwin_logo_iphn6.png" width="375" height="157"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

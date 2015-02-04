@@ -27,7 +27,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6fb-db-YY0" userLabel="Button - S M">
                     <rect key="frame" x="17" y="10" width="25" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="menu_button_iphn4.png">
+                    <state key="normal" backgroundImage="slidemenu">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
@@ -88,9 +88,9 @@
     </objects>
     <resources>
         <image name="login_bg-iphn4.png" width="320" height="480"/>
-        <image name="menu_button_iphn4.png" width="25" height="21"/>
         <image name="nav_bg_iphn4.png" width="320" height="64"/>
         <image name="plus_icon_iphn4.png" width="25" height="24"/>
+        <image name="slidemenu" width="25" height="21"/>
         <image name="trmDet_mkw_iphn4.png" width="320" height="105"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

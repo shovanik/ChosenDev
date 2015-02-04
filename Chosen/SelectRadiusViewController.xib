@@ -20,9 +20,12 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="landing_screen_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="Swi-2i-Hnx">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="nav_bg_iphn6.png" translatesAutoresizingMaskIntoConstraints="NO" id="jrQ-UA-GUv">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="77"/>
+                </imageView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yiJ-wq-Vmn" userLabel="Button - S M">
                     <rect key="frame" x="20" y="10" width="30" height="25"/>
-                    <state key="normal" backgroundImage="menu_button_iphn6.png">
+                    <state key="normal" backgroundImage="slidemenu">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
@@ -81,9 +84,6 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pic.png" translatesAutoresizingMaskIntoConstraints="NO" id="bKZ-Gh-P2l">
                     <rect key="frame" x="43" y="124" width="50" height="57"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="nav_bg_iphn6.png" translatesAutoresizingMaskIntoConstraints="NO" id="jrQ-UA-GUv">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="77"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -92,9 +92,9 @@
     <resources>
         <image name="back_btn_iphn4.png" width="30" height="47"/>
         <image name="landing_screen_bg.png" width="375" height="667"/>
-        <image name="menu_button_iphn6.png" width="30" height="25"/>
         <image name="nav_bg_iphn6.png" width="375" height="77"/>
         <image name="pic.png" width="99" height="109"/>
+        <image name="slidemenu" width="25" height="21"/>
         <image name="trn_radi_iphn4.png" width="118" height="33"/>
         <image name="trn_radious_bg_iphn6.png" width="317" height="501"/>
     </resources>

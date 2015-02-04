@@ -38,7 +38,7 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDL-SE-FEi" userLabel="Button - S M">
                     <rect key="frame" x="17" y="10" width="25" height="21"/>
-                    <state key="normal" backgroundImage="menu_button_iphn4.png">
+                    <state key="normal" backgroundImage="slidemenu">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
@@ -140,10 +140,10 @@
         <image name="kfh_iphn4.png" width="63" height="82"/>
         <image name="login_bg-iphn4.png" width="320" height="480"/>
         <image name="ls_iphn4.png" width="63" height="82"/>
-        <image name="menu_button_iphn4.png" width="25" height="21"/>
         <image name="mkw_iphn4.png" width="63" height="82"/>
         <image name="nav_bg_iphn4.png" width="320" height="64"/>
         <image name="shadow_iphn4.png" width="9" height="480"/>
+        <image name="slidemenu" width="25" height="21"/>
         <image name="three_star_iphn4.png" width="178" height="35"/>
         <image name="trn_content_box_iphn4.png" width="283" height="102"/>
         <image name="trn_nav_bg_iphn4.png" width="320" height="64"/>

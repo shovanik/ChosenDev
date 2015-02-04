@@ -108,13 +108,7 @@
 
 }
 -(IBAction)skipButtonTapped:(id)sender{
-    GuildViewController *gVC  = nil;
-    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-        gVC = [[GuildViewController alloc] initWithNibName:@"GuildViewController_iPhone4" bundle:nil];
-    }else{
-        gVC =  [[GuildViewController alloc] initWithNibName:@"GuildViewController" bundle:nil];
-            
-    }
+    GuildViewController *gVC  = [[GuildViewController alloc] initWithNibName:@"GuildViewController" bundle:nil];;
     [self.revealSideViewController popViewControllerWithNewCenterController:gVC  animated:YES];
 
 }

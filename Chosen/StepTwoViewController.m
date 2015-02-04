@@ -117,17 +117,7 @@
     return YES;
 }
 -(IBAction)playButtonTapped:(id)sender{
-    GuildViewController *gVC  = nil;
-    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-        //For Iphone4
-        gVC = [[GuildViewController alloc] initWithNibName:@"GuildViewController_iPhone4" bundle:nil];
-        // NSLog(@"iPhone4");
-    }else{
-        gVC =  [[GuildViewController alloc] initWithNibName:@"GuildViewController" bundle:nil];
-        
-        //  NSLog(@"iPhone6");
-        
-    }
+    GuildViewController *gVC  = [[GuildViewController alloc] initWithNibName:@"GuildViewController" bundle:nil];
     //[self.navigationController pushViewController:gVC animated:YES];
     [self.revealSideViewController popViewControllerWithNewCenterController:gVC  animated:YES];
 

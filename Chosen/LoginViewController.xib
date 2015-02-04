@@ -15,6 +15,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController">
             <connections>
                 <outlet property="lgncontentView" destination="756-A8-zIU" id="fSW-Ns-toa"/>
+                <outlet property="logContentViewVerticalyCenter" destination="5G6-Tc-l4o" id="pg8-AL-Dkc"/>
                 <outlet property="navTitle" destination="XbY-sW-3an" id="Ofk-my-uYA"/>
                 <outlet property="passwordTextField" destination="I72-v9-Bcn" id="hU2-NZ-bAJ"/>
                 <outlet property="userNameTextField" destination="T82-Q4-gR1" id="CcQ-ms-XCH"/>

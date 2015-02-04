@@ -25,7 +25,7 @@ NSUserDefaults *pref;
 @property (nonatomic, strong) NSString *genderString;
 @property (nonatomic, strong) UIDatePicker *dateatePickerView;
 @property (nonatomic, strong) UIView *datePickerEditView;
-@property (nonatomic,strong)IBOutlet NSLayoutConstraint * regContentViewVerticalyCenter;
+@property (nonatomic,strong) IBOutlet NSLayoutConstraint * regContentViewVerticalyCenter;
 
 
 @end
@@ -70,21 +70,53 @@ int UserID, registrationStatus;
     self.conformPasswordTextField.textColor = color;
     self.dobTextField.textColor = color;
     self.emailTextField.textColor = color;
+    
+    
+//    if (self.dateatePickerView == nil) {
+//        UIDatePicker * aPick = nil;
+//        
+//        if (![[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
+//            // Iphone 6
+//            aPick  = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 451, 320, 216)];
+//        } else {
+//            // Iphone 4
+//            aPick  = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 264, 320, 216)];
+//            aPick.backgroundColor = [UIColor grayColor];
+//        }
+//        
+//        [aPick setDatePickerMode:UIDatePickerModeDate];
+//        [aPick addTarget:self action:@selector(dateLabelChanged:) forControlEvents:UIControlEventValueChanged];
+//        self.dateatePickerView = aPick;
+//    }
+    
     if (self.dateatePickerView == nil) {
         UIDatePicker * aPick = nil;
-        if (![[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-            // Iphone 6
-            aPick  = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 451, 320, 216)];
-        } else {
-            // Iphone 4
+        
+        if (IsIphone4)
+        {
             aPick  = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 264, 320, 216)];
-            aPick.backgroundColor = [UIColor grayColor];
+
+        }
+        else if (IsIphone5)
+        {
+            aPick  = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 352, 320, 216)];
+
+        }
+        else if (IsIphone6)
+        {
+            // Iphone 6
+            aPick  = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 451, 375, 216)];
+
+        }else{
+            aPick  = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 520, 414, 216)];
+
         }
         
         [aPick setDatePickerMode:UIDatePickerModeDate];
         [aPick addTarget:self action:@selector(dateLabelChanged:) forControlEvents:UIControlEventValueChanged];
         self.dateatePickerView = aPick;
     }
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:@"UIKeyboardWillShowNotification"
@@ -423,13 +455,28 @@ int UserID, registrationStatus;
         self.datePickerEditView = uv;
         
         UIToolbar *assignmentStartToolBar =  nil;
-        if (![[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-            // Iphone 5
-            assignmentStartToolBar  = [[UIToolbar alloc] initWithFrame:CGRectMake(0,407,375,44)];
-        } else {
-            // Iphone 4
+                
+        if (IsIphone4)
+        {
             assignmentStartToolBar  = [[UIToolbar alloc] initWithFrame:CGRectMake(0,220,320,44)];
+            
         }
+        else if (IsIphone5)
+        {
+            assignmentStartToolBar  = [[UIToolbar alloc] initWithFrame:CGRectMake(0,308,320,44)];
+            
+        }
+        else if (IsIphone6)
+        {
+            // Iphone 6
+            assignmentStartToolBar  = [[UIToolbar alloc] initWithFrame:CGRectMake(0,407,375,44)];
+            
+        }else{
+            assignmentStartToolBar  = [[UIToolbar alloc] initWithFrame:CGRectMake(0,476,414,44)];
+            
+        }
+
+        
         //        if ([assignmentStartToolBar respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)]) {
         //            UIImage *aImage = [[UIImage imageNamed:@"NavigationBar_BgImage"] stretchableImageWithLeftCapWidth:6 topCapHeight:6];
         //            [[UIToolbar appearance] setBackgroundImage:aImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];

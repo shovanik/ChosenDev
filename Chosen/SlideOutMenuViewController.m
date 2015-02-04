@@ -108,18 +108,8 @@ FBLoginView *fbLoginView;
     if (button.tag == 1) {
         
     }else if (button.tag == 2){
-        GuildViewController *gVC  = nil;
-        if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-            //For Iphone4
-            gVC = [[GuildViewController alloc] initWithNibName:@"GuildViewController_iPhone4" bundle:nil];
-            // NSLog(@"iPhone4");
-        }else{
-            gVC =  [[GuildViewController alloc] initWithNibName:@"GuildViewController" bundle:nil];
-            
-            //  NSLog(@"iPhone6");
-            
-        }
-        [self.revealSideViewController popViewControllerWithNewCenterController:gVC  animated:YES];
+        GuildViewController *gVC  = [[GuildViewController alloc] initWithNibName:@"GuildViewController" bundle:nil];
+    [self.revealSideViewController popViewControllerWithNewCenterController:gVC  animated:YES];
         
         
     }else if (button.tag == 4){
@@ -138,17 +128,7 @@ FBLoginView *fbLoginView;
         
         
     }else if (button.tag == 5){
-        SettingsViewController *sVC  = nil;
-        if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-            //For Iphone4
-            sVC = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController_iPhone4" bundle:nil];
-            // NSLog(@"iPhone4");
-        }else{
-            sVC =  [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
-            
-            //  NSLog(@"iPhone6");
-            
-        }
+        SettingsViewController *sVC  = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];;
         [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
         
         

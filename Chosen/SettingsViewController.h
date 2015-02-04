@@ -18,5 +18,8 @@
 @property (nonatomic, strong) IBOutlet UIButton *priPoliButton;
 @property (nonatomic, strong) IBOutlet UIButton *termsOfUseButton;
 -(IBAction)setMenuButtonTapped:(id)sender;
+-(IBAction)abtButtonTapped:(id)sender;
+-(IBAction)priPolButtonTapped:(id)sender;
+-(IBAction)trmUseBtnTapped:(id)sender;
 
 @end
