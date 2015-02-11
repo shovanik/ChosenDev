@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "AppDelegate.h"
 @interface RegisterViewController : UIViewController <UITextFieldDelegate>
 @property (nonatomic, strong) IBOutlet UIView *regContentView;
 @property (nonatomic, strong) IBOutlet UILabel *navTitle;

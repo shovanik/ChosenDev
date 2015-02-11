@@ -22,7 +22,7 @@
                     <rect key="frame" x="-15" y="0.0" width="15" height="667"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BE291C35-ADD4-4F08-B005-009A51D60B8B" id="YgY-iQ-ihX">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="13B62EDB-1029-4503-9F1A-4F99E9EEFC4F" id="YgY-iQ-ihX">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -166,7 +166,7 @@
         </view>
     </objects>
     <resources>
-        <image name="BE291C35-ADD4-4F08-B005-009A51D60B8B" width="375" height="667">
+        <image name="13B62EDB-1029-4503-9F1A-4F99E9EEFC4F" width="375" height="667">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

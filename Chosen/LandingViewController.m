@@ -30,15 +30,18 @@ FBLoginView *fbLoginView;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationController.navigationBarHidden = YES;
+    
     //Print all font name
-    for(NSString *family in [UIFont familyNames])
+  /*  for(NSString *family in [UIFont familyNames])
     {
         NSLog(@"%@", family);
         for(NSString* name in [UIFont fontNamesForFamilyName: family])
         {
             NSLog(@"  %@", name);
         }
-    }
+    } 
+   */
+    
     //self.cpLabel.font = [UIFont fontWithName:@"Garamond" size:17];
     sharedPref = [NSUserDefaults standardUserDefaults];
 

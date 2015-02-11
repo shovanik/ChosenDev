@@ -7,9 +7,11 @@
 //
 
 #import "SlideOutMenuViewController.h"
+#import "WorldMapViewController.h"
 #import "SettingsViewController.h"
 #import "TournamentViewController.h"
 #import "LandingViewController.h"
+#import "SelectRadiusViewController.h"
 #import "STTwitter.h"
 NSUserDefaults *pref;
 @interface SlideOutMenuViewController ()
@@ -105,15 +107,22 @@ FBLoginView *fbLoginView;
     self.settingsButton.selected = NO;
     UIButton *button=(UIButton*)sender;
     button.selected = YES;
-    if (button.tag == 1) {
+    if (button.tag == 1)
+    {
+        WorldMapViewController *wMVC  = [[WorldMapViewController alloc] initWithNibName:@"WorldMapViewController" bundle:nil];
+        [self.revealSideViewController popViewControllerWithNewCenterController:wMVC  animated:YES];
+
         
-    }else if (button.tag == 2){
+    }else if (button.tag == 2)
+    {
         GuildViewController *gVC  = [[GuildViewController alloc] initWithNibName:@"GuildViewController" bundle:nil];
     [self.revealSideViewController popViewControllerWithNewCenterController:gVC  animated:YES];
         
         
-    }else if (button.tag == 4){
-        TournamentViewController *tVC  = nil;
+    }
+    else if (button.tag == 4)
+    {
+       /* TournamentViewController *tVC  = nil;
         if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
             //For Iphone4
             tVC = [[TournamentViewController alloc] initWithNibName:@"TournamentViewController_iPhone4" bundle:nil];
@@ -124,10 +133,16 @@ FBLoginView *fbLoginView;
             //  NSLog(@"iPhone6");
             
         }
-        [self.revealSideViewController popViewControllerWithNewCenterController:tVC  animated:YES];
+        [self.revealSideViewController popViewControllerWithNewCenterController:tVC  animated:YES];*/
+        
+        SelectRadiusViewController *tdVC  = [[SelectRadiusViewController alloc] initWithNibName:@"SelectRadiusViewController" bundle:nil];
+        [self.revealSideViewController popViewControllerWithNewCenterController:tdVC  animated:YES];
+        
+
         
         
-    }else if (button.tag == 5){
+    }else if (button.tag == 5)
+    {
         SettingsViewController *sVC  = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];;
         [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
         

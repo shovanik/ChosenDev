@@ -7,6 +7,7 @@
 //
 
 #import <FacebookSDK/FacebookSDK.h>
+#define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
 #import "AppDelegate.h"
 #import "LandingViewController.h"
@@ -18,11 +19,14 @@
 
 
 @interface AppDelegate ()
+{
+    
+}
 
 @end
 
 @implementation AppDelegate
-@synthesize navigationcontroller;
+@synthesize navigationcontroller, locManager, placemarkL, nearByUserArray, selectedRadious;
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
@@ -81,10 +85,42 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // Allocate a reachability object
+    
+    nearByUserArray = [[NSArray alloc] init];
+    selectedRadious = 5;
+    Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    // Set the blocks
+    reach.reachableBlock = ^(Reachability*reach)
+    {
+        // keep in mind this is called on a background thread
+        // and if you are updating the UI it needs to happen
+        // on the main thread, like this:
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"REACHABLE!");
+        });
+    };
+    
+    reach.unreachableBlock = ^(Reachability*reach)
+    {
+        NSLog(@"UNREACHABLE!");
+    };
+    
+    // Start the notifier, which will cause the reachability object to retain itself!
+    [reach startNotifier];
+    
+
+    
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    [self localnotification];
+
     LandingViewController *landingViewController =  [[LandingViewController alloc] initWithNibName:@"LandingViewController" bundle:nil];
 
     //navigationcontroller = [[UINavigationController alloc]initWithRootViewController:landingViewController];
@@ -105,6 +141,59 @@
     
     return YES;
 }
+
+-(void)localnotification
+{
+    if(locManager==nil)
+        locManager = [[CLLocationManager alloc] init];
+    
+    locManager.delegate = self;
+    locManager.distanceFilter = kCLDistanceFilterNone;
+    locManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if(IS_OS_8_OR_LATER)
+    {
+        [locManager requestAlwaysAuthorization];
+    }
+    
+    //[locationManager startMonitoringSignificantLocationChanges];
+    [locManager startUpdatingLocation];
+}
+
+#pragma mark - Locationmanager Delegate
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    [locManager stopUpdatingLocation];
+    NSLog(@"Current Location: %@", [locations lastObject]);
+    
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init] ;
+    [geocoder reverseGeocodeLocation:[locations lastObject] completionHandler:^(NSArray *placemarks, NSError *error)
+     {
+         if(error==nil &&[placemarks count]>0)
+         {
+             placemarkL=[placemarks lastObject] ;
+             
+            // NSLog(@"Place mark %@", placemarkL);
+             NSLog(@"Location Details:Locality =%@ Postal code = %@  Country = %@ ",placemarkL.locality,placemarkL.postalCode,placemarkL.country);
+             NSLog(@"Location's Latitude = %f,and longitude = %f",locManager.location.coordinate.latitude,locManager.location.coordinate.longitude);
+             
+                          
+         }
+         else
+         {
+             NSLog(@"error");
+         }
+         
+     }];
+         
+             
+}
+
 #pragma mark - PPRevealSideViewController delegate
 
 - (void)pprevealSideViewController:(PPRevealSideViewController *)controller willPushController:(UIViewController *)pushedController {

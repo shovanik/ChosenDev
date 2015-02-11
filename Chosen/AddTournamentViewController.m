@@ -95,21 +95,13 @@
     [textField resignFirstResponder];
     return YES;
 }
--(IBAction)radiusButtonTapped:(id)sender{
-    SelectRadiusViewController *tdVC  = nil;
-    if ([[Context getInstance] screenPhysicalSizeForIPhoneClassic]) {
-        //For Iphone4
-        tdVC = [[SelectRadiusViewController alloc] initWithNibName:@"SelectRadiusViewController_iPhone4" bundle:nil];
-        // NSLog(@"iPhone4");
-    }else{
-        tdVC =  [[SelectRadiusViewController alloc] initWithNibName:@"SelectRadiusViewController" bundle:nil];
-        
-        //  NSLog(@"iPhone6");
-        
-    }
-    [self.revealSideViewController popViewControllerWithNewCenterController:tdVC  animated:YES];
-
+-(IBAction)noOfPlayerCanPlayButtonTapped:(id)sender{
     
+}
+
+-(IBAction)radiusButtonTapped:(id)sender{
+    SelectRadiusViewController *tdVC  = [[SelectRadiusViewController alloc] initWithNibName:@"SelectRadiusViewController" bundle:nil];
+    [self.revealSideViewController popViewControllerWithNewCenterController:tdVC  animated:YES];
     
 }
 

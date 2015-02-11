@@ -64,7 +64,7 @@ NSUserDefaults *pref;
     self.userNameTextField.textColor = color;
     self.passwordTextField.textColor = color;
     
-    userNameTextField.text = @"chinu.sahu4";
+    userNameTextField.text = @"usermap1";
     passwordTextField.text = @"password123";
 
 }
@@ -127,13 +127,23 @@ NSUserDefaults *pref;
 
 -(IBAction)loginButtonTapped:(id)sender
 {
-    DataClass *commonData = [[DataClass alloc] init];
-    commonData.isLoginButtonClicked=YES;
-    [pref setInteger:1 forKey:@"LoggedInState"];
+    AppDelegate *appDg =(AppDelegate *) [[UIApplication sharedApplication] delegate];
 
-    
+    DataClass *commonData = [[DataClass alloc] init];
+    commonData.isApiCalled=1;
+    [pref setInteger:1 forKey:@"LoggedInState"];
+    NSLog(@"Latitude %f, Longitude %f",appDg.locManager.location.coordinate.latitude, appDg.locManager.location.coordinate.longitude );
+//    NSString *latitude = [NSNumber numberWithFloat:appDg.locManager.location.coordinate.latitude].stringValue;
+//    NSString *longitude = [NSNumber numberWithFloat:appDg.locManager.location.coordinate.longitude].stringValue;
+    NSString *latitude = [NSString stringWithFormat: @"%f", appDg.locManager.location.coordinate.latitude];
+    NSString *longitude = [NSString stringWithFormat: @"%f", appDg.locManager.location.coordinate.longitude];
+
+   // NSLog(@"Latitude %@, Longitude %@",latitude, longitude );
+
     NSDictionary *params = @{@"user_name" : userNameTextField.text,
-                             @"password" : passwordTextField.text};
+                             @"password" : passwordTextField.text,
+                             @"lat":latitude,
+                             @"lon" : longitude};
     
     
     [commonData apiCall:params method:@"POST" completionHandler:^(id response, NSError *error)
@@ -152,16 +162,27 @@ NSUserDefaults *pref;
              {
                  [pref setBool:YES forKey:@"isLogedin"];
                  [self alertStatus:@"Login Successful." :nil];
-                 NSDictionary *userInfoDic = [response objectForKey:@"response"];
-                 NSString *uName = [userInfoDic objectForKey:@"user_name"];
-                 NSString *eMail = [userInfoDic objectForKey:@"email"];
-                 NSString *gender = [userInfoDic objectForKey:@"gender"];
-                 NSString *dob = [userInfoDic objectForKey:@"date_of_birth"];
+
+                 
+                 NSDictionary *responceFromSvr = [response objectForKey:@"response"];
+                 //NSLog(@"All User info = %@",[responceFromSvr objectForKey:@"all_user_info"]);
+                // NSLog(@"User info = %@",[responceFromSvr objectForKey:@"user_info"]);
+                 NSDictionary *userInfo = [responceFromSvr objectForKey:@"user_info"];
+                 appDg.nearByUserArray = [responceFromSvr objectForKey:@"all_user_info"];
+                // NSLog(@"nearByUserArray = %@",appDg.nearByUserArray);
+
+                 
+                 NSString *uName = [userInfo objectForKey:@"user_name"];
+                 NSString *eMail = [userInfo objectForKey:@"email"];
+                 NSString *gender = [userInfo objectForKey:@"gender"];
+                 NSString *dob = [userInfo objectForKey:@"date_of_birth"];
                  [pref setValue:uName forKey:@"UserName"];
                  [pref setValue:eMail forKey:@"EmailId"];
                  [pref setValue:gender forKey:@"Gender"];
                  [pref setValue:dob forKey:@"DateOfBirth"];
+                 [pref setValue:@"5" forKey:@"MapRadious"];
                  [pref synchronize];
+                 commonData.isApiCalled=1;
 
                  StepOneViewController *sVC  = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];
                 

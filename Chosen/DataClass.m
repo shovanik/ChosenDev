@@ -15,12 +15,16 @@
     
     if (self = [super init]) {
         
+        //  http://192.168.0.1/Chosen/api/user/all_login_user_radius
+        
        // ROOT_LOCATION = @"http://192.168.0.1/Chosen/";
         
        ROOT_LOCATION = @"http://chosen.sulavmart.com/";
     
-        LOGIN_API_LOCATION = [ROOT_LOCATION stringByAppendingString: @"api/user/login/"];
+        //LOGIN_API_LOCATION = [ROOT_LOCATION stringByAppendingString: @"api/user/login/"];
+        LOGIN_API_LOCATION = [ROOT_LOCATION stringByAppendingString: @"api/user/login_radius/"];
         REG_API_LOCATION =   [ROOT_LOCATION stringByAppendingString: @"registration/register"];
+        RADIOUS_API_LOCATION =   [ROOT_LOCATION stringByAppendingString: @"api/user/all_login_user_radius"];
  
         SITE_LOCATION = ROOT_LOCATION;
     }
@@ -38,6 +42,9 @@
 -(NSString*) LoginApiLocation{
     return LOGIN_API_LOCATION;
 }
+- (NSString*) RadiousApiLocation{
+    return RADIOUS_API_LOCATION;
+}
 
 -(NSString*) SiteLocation{
     return SITE_LOCATION;
@@ -45,7 +52,7 @@
 
 //Used for Gobal Vriable Such as UserID
 
-@synthesize USER_NO, reponseValue,isLoginButtonClicked;
+@synthesize USER_NO, reponseValue,/*isLoginButtonClicked*/isApiCalled;
 
 static DataClass *instance = nil;
 
@@ -86,10 +93,12 @@ static DataClass *instance = nil;
         //NSLog(@" post data");
         NSString *requestUrl;
         
-        if(isLoginButtonClicked)
+        if(isApiCalled == 1)
             requestUrl = LOGIN_API_LOCATION;
-        else
+        else if(isApiCalled == 2)
             requestUrl = REG_API_LOCATION;
+        else
+            requestUrl = RADIOUS_API_LOCATION;
         
         NSLog(@"URL: %@",requestUrl);
         
@@ -122,10 +131,12 @@ static DataClass *instance = nil;
         
         NSString *requestUrl;
         
-        if(isLoginButtonClicked)
-            requestUrl = LOGIN_API_LOCATION;
-        else
+        if(isApiCalled == 1)
+        requestUrl = LOGIN_API_LOCATION;
+        else if(isApiCalled == 2)
             requestUrl = REG_API_LOCATION;
+        else
+            requestUrl = RADIOUS_API_LOCATION;
         
         NSString *format = [requestUrl stringByAppendingString:@"?"];
         NSMutableString *url = [NSMutableString stringWithString:format];

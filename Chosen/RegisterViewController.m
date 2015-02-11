@@ -22,16 +22,19 @@ NSUserDefaults *pref;
 
 
 }
+@property (nonatomic, strong) NSString *stateString;
+@property (nonatomic, strong) NSString *countryString;
+@property (nonatomic, strong) NSString *latitudeString;
+@property (nonatomic, strong) NSString *longitudeString;
 @property (nonatomic, strong) NSString *genderString;
 @property (nonatomic, strong) UIDatePicker *dateatePickerView;
 @property (nonatomic, strong) UIView *datePickerEditView;
 @property (nonatomic,strong) IBOutlet NSLayoutConstraint * regContentViewVerticalyCenter;
 
-
 @end
 
 @implementation RegisterViewController
-@synthesize regContentView, userNameTextField, passwordTextField, conformPasswordTextField,dobTextField,emailTextField, maleButton, femaleButton, navTitle, genderString, regContentViewVerticalyCenter;
+@synthesize regContentView, userNameTextField, passwordTextField, conformPasswordTextField,dobTextField,emailTextField, maleButton, femaleButton, navTitle, genderString, regContentViewVerticalyCenter, latitudeString, longitudeString, stateString, countryString;
 int UserID, registrationStatus;
 
 - (void)viewDidLoad {
@@ -131,6 +134,19 @@ int UserID, registrationStatus;
     
 
     
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+   AppDelegate *appDg =(AppDelegate *) [[UIApplication sharedApplication] delegate];
+    appDg.locManager=nil;
+    [appDg localnotification];
+    NSLog(@"Location's Latitude = %f,and longitude = %f",appDg.locManager.location.coordinate.latitude,appDg.locManager.location.coordinate.latitude);
+    
+    latitudeString = [[NSNumber numberWithFloat:appDg.locManager.location.coordinate.latitude] stringValue];
+    longitudeString = [[NSNumber numberWithFloat:appDg.locManager.location.coordinate.longitude] stringValue];
+    stateString =appDg.placemarkL.subAdministrativeArea;
+    countryString =appDg.placemarkL.country;
 }
 - (BOOL)prefersStatusBarHidden {
     return YES;
@@ -299,6 +315,8 @@ int UserID, registrationStatus;
 
 -(IBAction)submitButtonTapped:(id)sender
 {
+    AppDelegate *appDg =(AppDelegate *) [[UIApplication sharedApplication] delegate];
+
     if (self.userNameTextField.text.length == 0 || self.passwordTextField.text.length == 0 || self.genderString.length == 0 || dobTextField == 0 || emailTextField.text.length == 0 )
     {
         [self alertStatus:@"All Fields are mandatory." :@"Registration Failed!"];
@@ -310,6 +328,7 @@ int UserID, registrationStatus;
         {
             //[self alertStatus:@"Your password must contain at least one numeric number or one special character." :@"Registration Failed!"];
         }else if (![self.passwordTextField.text isEqualToString:self.conformPasswordTextField.text]) {
+            
             [self alertStatus:@"The password entered does not match the confirmation password." :@"Registration Failed!"];
 
         }else if(![self NSStringIsValidEmail:[self.emailTextField text]])
@@ -322,14 +341,18 @@ int UserID, registrationStatus;
             StepOneViewController *sVC  = [[StepOneViewController alloc] initWithNibName:@"StepOneViewController" bundle:nil];;
             DataClass *commonData = [[DataClass alloc] init];
 
-            commonData.isLoginButtonClicked =NO;
+            commonData.isApiCalled =2;
             [pref setInteger:1 forKey:@"LoggedInState"];
 
             NSDictionary *params = @{@"user_name" : userNameTextField.text,
                                      @"password" : passwordTextField.text,
                                      @"gender" : genderString,
                                      @"email" : emailTextField.text,
-                                     @"date_of_birth" : dobTextField.text};
+                                     @"date_of_birth" : dobTextField.text,
+                                     @"lat" : latitudeString,
+                                     @"lon" : longitudeString,
+                                     @"country_id" : countryString,
+                                     @"city_id" : stateString};
             
             
             //[self.activityIndicatorView startAnimating];
@@ -352,12 +375,19 @@ int UserID, registrationStatus;
                  {
                      [self alertStatus:@"Registration Successful." :nil];
                      
-                     commonData.isLoginButtonClicked=YES;
+                     commonData.isApiCalled=1;
                      [pref setInteger:1 forKey:@"LoggedInState"];
                      
                      
+                     NSString *latitude = [NSString stringWithFormat: @"%f", appDg.locManager.location.coordinate.latitude];
+                     NSString *longitude = [NSString stringWithFormat: @"%f", appDg.locManager.location.coordinate.longitude];
+                     
+                     NSLog(@"Latitude %@, Longitude %@",latitude, longitude );
+                     
                      NSDictionary *params2 = @{@"user_name" : userNameTextField.text,
-                                               @"password" : passwordTextField.text};
+                                              @"password" : passwordTextField.text,
+                                              @"lat":latitude,
+                                              @"lon" : longitude};
                      
                      
                      [commonData apiCall:params2 method:@"POST" completionHandler:^(id response, NSError *error)
@@ -376,7 +406,10 @@ int UserID, registrationStatus;
                               {
                                   [pref setBool:YES forKey:@"isLogedin"];
 
-                                  NSDictionary *userInfoDic = [response objectForKey:@"response"];
+                                  NSDictionary *responceFromSvr = [response objectForKey:@"response"];
+                                  NSDictionary *userInfoDic = [responceFromSvr objectForKey:@"user_info"];
+                                  appDg.nearByUserArray = [responceFromSvr objectForKey:@"all_user_info"];
+
                                   NSString *uName = [userInfoDic objectForKey:@"user_name"];
                                   NSString *eMail = [userInfoDic objectForKey:@"email"];
                                   NSString *gender = [userInfoDic objectForKey:@"gender"];
@@ -387,7 +420,7 @@ int UserID, registrationStatus;
                                   [pref setValue:dob forKey:@"DateOfBirth"];
                                   [pref synchronize];
                                   
-                                  commonData.isLoginButtonClicked=NO;
+                                  commonData.isApiCalled=0;
                                   [self.revealSideViewController popViewControllerWithNewCenterController:sVC  animated:YES];
                               }
                           }
@@ -401,7 +434,7 @@ int UserID, registrationStatus;
                      [self alertStatus:@"User name already exists." :@"Registration Failed!"];
 
                  }else if ([[response valueForKey:@"error"] isEqualToString:@"Email address already exists"]){
-                     [self alertStatus:@"User name already exists." :@"Registration Failed!"];
+                     [self alertStatus:@"Email ID already exists." :@"Registration Failed!"];
                      
                  }
                  else
@@ -446,7 +479,8 @@ int UserID, registrationStatus;
 -(void)launchDatePicker
 {
     
-    if (self.datePickerEditView == nil) {
+    if (self.datePickerEditView == nil)
+    {
         NSLog(@"viewFrame:%f,%f",self.view.frame.origin.x, self.view.frame.origin.y);
         UIView * uv = [[UIView alloc] initWithFrame:self.view.frame];
         NSLog(@"ed vi y:%f, h = %f",uv.frame.origin.y,uv.frame.size.height);
